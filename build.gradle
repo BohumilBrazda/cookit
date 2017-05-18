@@ -1,0 +1,27 @@
+version '0.0.1'
+
+apply plugin: 'war'
+apply plugin: 'java'
+apply plugin: 'idea'
+
+sourceCompatibility = 1.8
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    compile project(':cz.brazda.cookit.repository')
+    compile project(':cz.brazda.cookit.api')
+    compile project(':cz.brazda.cookit.common')
+    compile group: 'javax', name: 'javaee-api', version: '7.0'
+    compile("org.springframework.boot:spring-boot-starter-web:1.5.3.RELEASE")
+            {
+                exclude group: 'org.springframework.boot', module: 'spring-boot-starter-tomcat'
+            }
+    compile group: 'javax.servlet', name: 'javax.servlet-api', version: '4.0.0-b05'
+
+}
+war {
+    archiveName = 'cookit.war'
+}

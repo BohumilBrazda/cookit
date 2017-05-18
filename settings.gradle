@@ -1,0 +1,6 @@
+rootProject.name = 'cz.brazda.cookit'
+include ':cz.brazda.cookit.common'
+include 'cz.brazda.cookit.web'
+include ':cz.brazda.cookit.repository'
+include ':cz.brazda.cookit.api'
+
