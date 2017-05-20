@@ -1,7 +1,6 @@
 package cz.brazda.cookit.rest.api.controllers;
 
 import cz.brazda.cookit.common.dto.IngredientDto;
-import cz.brazda.cookit.common.dto.RecipeDto;
 import cz.brazda.cookit.repository.entity.Ingredient;
 import cz.brazda.cookit.repository.service.IngredientService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,11 +24,6 @@ public class IngredientController extends AbstractController<Ingredient, Ingredi
     @RequestMapping( method = RequestMethod.GET )
     public @ResponseBody
     List<IngredientDto> findAll() {
-        return toDtos(ingredientService.findAll());
-    }
-
-    @Override
-    public IngredientDto toDto(Ingredient entity) {
-        return modelMapper.map(entity, IngredientDto.class);
+        return convertToDtos(ingredientService.findAll(), IngredientDto.class);
     }
 }

@@ -7,11 +7,22 @@ import java.util.List;
  */
 public class RecipeDto extends AbstractDto {
 
+    private Long id;
+
     private String name;
+
     private Integer numberOfPortion;
     private Float price;
-
     private List<RecipeItemDto> items;
+
+    @Override
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
 
     public String getName() {
         return name;
@@ -52,17 +63,21 @@ public class RecipeDto extends AbstractDto {
 
         RecipeDto recipeDto = (RecipeDto) o;
 
-        if (!name.equals(recipeDto.name)) return false;
+        if (id != null ? !id.equals(recipeDto.id) : recipeDto.id != null) return false;
+        if (name != null ? !name.equals(recipeDto.name) : recipeDto.name != null) return false;
         if (numberOfPortion != null ? !numberOfPortion.equals(recipeDto.numberOfPortion) : recipeDto.numberOfPortion != null)
             return false;
-        return price != null ? price.equals(recipeDto.price) : recipeDto.price == null;
+        if (price != null ? !price.equals(recipeDto.price) : recipeDto.price != null) return false;
+        return items != null ? items.equals(recipeDto.items) : recipeDto.items == null;
     }
 
     @Override
     public int hashCode() {
-        int result = name.hashCode();
+        int result = id != null ? id.hashCode() : 0;
+        result = 31 * result + (name != null ? name.hashCode() : 0);
         result = 31 * result + (numberOfPortion != null ? numberOfPortion.hashCode() : 0);
         result = 31 * result + (price != null ? price.hashCode() : 0);
+        result = 31 * result + (items != null ? items.hashCode() : 0);
         return result;
     }
 

@@ -5,11 +5,17 @@ package cz.brazda.cookit.common.dto;
  */
 public class IngredientDto extends AbstractDto {
 
+    private Long id;
+
     private String name;
     private String description;
-
     public String getName() {
         return name;
+    }
+
+    @Override
+    public Long getId() {
+        return id;
     }
 
     public void setName(String name) {
@@ -24,6 +30,10 @@ public class IngredientDto extends AbstractDto {
         this.description = description;
     }
 
+    public void setId(Long id) {
+        this.id = id;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -31,12 +41,12 @@ public class IngredientDto extends AbstractDto {
 
         IngredientDto that = (IngredientDto) o;
 
-        return name.equals(that.name);
+        return id != null ? id.equals(that.id) : that.id == null;
     }
 
     @Override
     public int hashCode() {
-        return name.hashCode();
+        return id != null ? id.hashCode() : 0;
     }
 
     @Override

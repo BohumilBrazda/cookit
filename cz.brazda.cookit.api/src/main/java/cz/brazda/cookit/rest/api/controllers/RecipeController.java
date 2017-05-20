@@ -5,13 +5,10 @@ import cz.brazda.cookit.common.dto.RecipeDto;
 import cz.brazda.cookit.repository.entity.Recipe;
 import cz.brazda.cookit.repository.service.RecipeService;
 import cz.brazda.cookit.rest.api.utils.RestPreconditions;
-import org.modelmapper.ModelMapper;
 import org.springframework.http.HttpStatus;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import javax.persistence.JoinColumn;
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -26,13 +23,13 @@ public class RecipeController extends AbstractController<Recipe, RecipeDto>{
 
     @RequestMapping( method = RequestMethod.GET )
     public @ResponseBody List<RecipeDto> findAll() {
-        return toDtos(recipeService.findAll());
+        return convertToDtos(recipeService.findAll(), RecipeDto.class);
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
     public @ResponseBody RecipeDto findOne( @PathVariable( "id" ) Long id ) {
         Recipe recipe = recipeService.findById(id);
-        return RestPreconditions.checkFound(toDto(recipe));
+        return RestPreconditions.checkFound(convertToDto(recipe, RecipeDto.class));
     }
 
     @RequestMapping( method = RequestMethod.POST )
@@ -41,11 +38,5 @@ public class RecipeController extends AbstractController<Recipe, RecipeDto>{
     public Recipe create( @RequestBody Recipe resource ){
         Preconditions.checkNotNull( resource );
         return recipeService.create(resource);
-    }
-
-    @Override
-    public RecipeDto toDto(Recipe recipe){
-        RecipeDto recipeDto = modelMapper.map(recipe, RecipeDto.class);
-        return recipeDto;
     }
 }

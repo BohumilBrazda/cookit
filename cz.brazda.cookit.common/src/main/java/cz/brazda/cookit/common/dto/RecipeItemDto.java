@@ -7,6 +7,8 @@ import cz.brazda.cookit.common.Unit;
  */
 public class RecipeItemDto extends AbstractDto {
 
+    private Long id;
+
     private String name;
     private String description;
     private Double amount;
@@ -54,14 +56,23 @@ public class RecipeItemDto extends AbstractDto {
     }
 
     @Override
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
 
         RecipeItemDto that = (RecipeItemDto) o;
 
-        if (!name.equals(that.name)) return false;
-        if (description != null ? !description.equals(that.description) : that.description != null) return false;
+        if (id != null ? !id.equals(that.id) : that.id != null) return false;
+        if (name != null ? !name.equals(that.name) : that.name != null) return false;
         if (amount != null ? !amount.equals(that.amount) : that.amount != null) return false;
         if (ingredient != null ? !ingredient.equals(that.ingredient) : that.ingredient != null) return false;
         return unit == that.unit;
@@ -69,8 +80,8 @@ public class RecipeItemDto extends AbstractDto {
 
     @Override
     public int hashCode() {
-        int result = name.hashCode();
-        result = 31 * result + (description != null ? description.hashCode() : 0);
+        int result = id != null ? id.hashCode() : 0;
+        result = 31 * result + (name != null ? name.hashCode() : 0);
         result = 31 * result + (amount != null ? amount.hashCode() : 0);
         result = 31 * result + (ingredient != null ? ingredient.hashCode() : 0);
         result = 31 * result + (unit != null ? unit.hashCode() : 0);
