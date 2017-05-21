@@ -16,7 +16,7 @@ public class Meal implements IdElement, Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "ID")
+    @Column(name = "id")
     private Long id;
 
     @Column(name = "name")
@@ -28,7 +28,7 @@ public class Meal implements IdElement, Serializable {
     @Transient
     private List<Object> pictures;
 
-    @OneToMany(cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "meal", cascade = CascadeType.ALL)
     private List<Recipe> recipes;
 
     //hibernate

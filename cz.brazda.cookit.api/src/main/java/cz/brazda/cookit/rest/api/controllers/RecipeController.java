@@ -1,8 +1,12 @@
 package cz.brazda.cookit.rest.api.controllers;
 
 import com.google.common.base.Preconditions;
+import cz.brazda.cookit.common.dto.AuthorDto;
 import cz.brazda.cookit.common.dto.RecipeDto;
+import cz.brazda.cookit.repository.entity.Author;
 import cz.brazda.cookit.repository.entity.Recipe;
+import cz.brazda.cookit.repository.entity.exceptions.AuthorNotFound;
+import cz.brazda.cookit.repository.entity.exceptions.RecipeNotFound;
 import cz.brazda.cookit.repository.service.RecipeService;
 import cz.brazda.cookit.rest.api.utils.RestPreconditions;
 import org.springframework.http.HttpStatus;
@@ -38,5 +42,17 @@ public class RecipeController extends AbstractController<Recipe, RecipeDto>{
     public Recipe create( @RequestBody Recipe resource ){
         Preconditions.checkNotNull( resource );
         return recipeService.create(resource);
+    }
+
+    @RequestMapping(value = "/{id}", method = RequestMethod.PUT)
+    @ResponseStatus(HttpStatus.OK)
+    public void update(@PathVariable("id") Long id, @RequestBody RecipeDto recipeDto) {
+        Recipe recipe = convertToEntity(recipeDto, Recipe.class);
+        try {
+            Recipe updatedRecipe = recipeService.update(recipe);
+            recipeService.update(updatedRecipe);
+        } catch (RecipeNotFound recipeNotFound) {
+            recipeNotFound.printStackTrace();
+        }
     }
 }

@@ -2,6 +2,7 @@ package cz.brazda.cookit.rest.api.controllers;
 
 import com.google.common.base.Preconditions;
 import cz.brazda.cookit.common.dto.AuthorDto;
+import cz.brazda.cookit.common.dto.IngredientDto;
 import cz.brazda.cookit.repository.entity.Author;
 import cz.brazda.cookit.repository.entity.exceptions.AuthorNotFound;
 import cz.brazda.cookit.repository.service.AuthorService;
@@ -9,6 +10,8 @@ import cz.brazda.cookit.rest.api.utils.RestPreconditions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 /**
  * Created by virtual on 20.5.2017.
@@ -20,6 +23,12 @@ public class AuthorController extends AbstractController<Author, AuthorDto>{
 
     @Autowired
     private AuthorService authorService;
+
+    @RequestMapping( method = RequestMethod.GET )
+    public @ResponseBody
+    List<AuthorDto> findAll() {
+        return convertToDtos(authorService.findAll(), AuthorDto.class);
+    }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
     public @ResponseBody
@@ -34,13 +43,12 @@ public class AuthorController extends AbstractController<Author, AuthorDto>{
     public AuthorDto create( @RequestBody AuthorDto authorDto ){
         Preconditions.checkNotNull( authorDto );
         Author author = convertToEntity(authorDto, Author.class);
-        AuthorDto createdAuthorDto  = convertToDto(authorService.create(author), AuthorDto.class);
-        return createdAuthorDto;
+        return convertToDto(authorService.create(author), AuthorDto.class);
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.PUT)
     @ResponseStatus(HttpStatus.OK)
-    public void updateAuthor(@RequestBody AuthorDto authorDto) {
+    public void update(@PathVariable("id") Long id, @RequestBody AuthorDto authorDto) {
         Author author = convertToEntity(authorDto, Author.class);
         try {
             Author updatedAuthor = authorService.update(author);

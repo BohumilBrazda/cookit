@@ -2,7 +2,7 @@ package cz.brazda.cookit.repository.service.impl;
 
 import cz.brazda.cookit.repository.MealRepository;
 import cz.brazda.cookit.repository.entity.Meal;
-import cz.brazda.cookit.repository.entity.exceptions.MealNotFoud;
+import cz.brazda.cookit.repository.entity.exceptions.MealNotFound;
 import cz.brazda.cookit.repository.service.MealService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -13,7 +13,7 @@ import org.springframework.stereotype.Service;
  * Created by virtual on 23.4.2017.
  */
 @Service
-public class MealServiceImpl extends RepositoryServiceImpl<Meal, MealRepository, MealNotFoud> implements MealService {
+public class MealServiceImpl extends RepositoryServiceImpl<Meal, MealRepository, MealNotFound> implements MealService {
 
     @Autowired
     public MealServiceImpl(MealRepository mealRepository){
@@ -21,8 +21,8 @@ public class MealServiceImpl extends RepositoryServiceImpl<Meal, MealRepository,
     }
 
     @Override
-    protected MealNotFoud createException() {
-        return new MealNotFoud();
+    protected MealNotFound createException() {
+        return new MealNotFound();
     }
 
     @Override
