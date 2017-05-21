@@ -17,7 +17,7 @@ public class Author implements IdElement {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
-    private Long userId;
+    private Long id;
 
     @Column(name = "first_name")
     private String firstName;
@@ -29,8 +29,14 @@ public class Author implements IdElement {
     public Author() {
     }
 
+    public Author(Long id, String firstName, String secondName) {
+        this.id = id;
+        this.firstName = firstName;
+        this.secondName = secondName;
+    }
+
     public Long getId() {
-        return userId;
+        return id;
     }
 
     public String getFirstName() {

@@ -11,9 +11,10 @@ repositories {
 
 dependencies {
     compile project(":cz.brazda.cookit.repository")
+    compile project (':cz.brazda.cookit.common')
+
     compile group: 'javax.ws.rs', name: 'javax.ws.rs-api', version: '2.1-m07'
     compile group: 'com.google.guava', name: 'guava', version: '21.0'
-    compile project (':cz.brazda.cookit.common')
     compile group: 'org.modelmapper', name: 'modelmapper', version: '0.7.8'
 
     testCompile group: 'junit', name: 'junit', version: '4.12'

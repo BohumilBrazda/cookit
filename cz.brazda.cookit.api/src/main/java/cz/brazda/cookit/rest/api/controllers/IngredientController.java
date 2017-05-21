@@ -2,11 +2,8 @@ package cz.brazda.cookit.rest.api.controllers;
 
 import com.google.common.base.Preconditions;
 import cz.brazda.cookit.common.dto.IngredientDto;
-import cz.brazda.cookit.common.dto.MealDto;
 import cz.brazda.cookit.repository.entity.Ingredient;
-import cz.brazda.cookit.repository.entity.Meal;
 import cz.brazda.cookit.repository.entity.exceptions.IngredientNotFound;
-import cz.brazda.cookit.repository.entity.exceptions.MealNotFound;
 import cz.brazda.cookit.repository.service.IngredientService;
 import cz.brazda.cookit.rest.api.utils.RestPreconditions;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,7 +17,7 @@ import java.util.List;
  */
 @RestController
 @RequestMapping(value="/ingredient")
-public class IngredientController extends AbstractController<Ingredient, IngredientDto> {
+public class IngredientController extends BaseController<Ingredient, IngredientDto> {
 
     @Autowired
     private IngredientService ingredientService;

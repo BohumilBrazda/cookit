@@ -1,11 +1,8 @@
 package cz.brazda.cookit.rest.api.controllers;
 
 import com.google.common.base.Preconditions;
-import cz.brazda.cookit.common.dto.AuthorDto;
 import cz.brazda.cookit.common.dto.MealDto;
-import cz.brazda.cookit.repository.entity.Author;
 import cz.brazda.cookit.repository.entity.Meal;
-import cz.brazda.cookit.repository.entity.exceptions.AuthorNotFound;
 import cz.brazda.cookit.repository.entity.exceptions.MealNotFound;
 import cz.brazda.cookit.repository.service.MealService;
 import cz.brazda.cookit.rest.api.utils.RestPreconditions;
@@ -20,7 +17,7 @@ import java.util.List;
  */
 @RestController
 @RequestMapping(value="/meal")
-public class MealController extends AbstractController<Meal, MealDto> {
+public class MealController extends BaseController<Meal, MealDto> {
 
     @Autowired
     private MealService mealService;

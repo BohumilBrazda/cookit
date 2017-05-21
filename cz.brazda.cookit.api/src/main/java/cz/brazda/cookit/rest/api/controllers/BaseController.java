@@ -4,6 +4,8 @@ import cz.brazda.cookit.common.IdElement;
 import cz.brazda.cookit.common.dto.AbstractDto;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -11,11 +13,10 @@ import java.util.List;
 /**
  * Created by virtual on 14.5.2017.
  */
-public abstract class AbstractController<U extends IdElement, V extends AbstractDto> {
-
+public class BaseController<U extends IdElement, V extends AbstractDto> {
 
     @Autowired
-    protected ModelMapper modelMapper;
+    private ModelMapper modelMapper;
 
 
     protected V convertToDto(U entity, Class<V> dtoClass){
@@ -41,4 +42,5 @@ public abstract class AbstractController<U extends IdElement, V extends Abstract
         }
         return entities;
     }
+
 }

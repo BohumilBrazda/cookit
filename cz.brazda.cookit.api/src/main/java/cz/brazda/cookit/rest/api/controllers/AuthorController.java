@@ -2,7 +2,6 @@ package cz.brazda.cookit.rest.api.controllers;
 
 import com.google.common.base.Preconditions;
 import cz.brazda.cookit.common.dto.AuthorDto;
-import cz.brazda.cookit.common.dto.IngredientDto;
 import cz.brazda.cookit.repository.entity.Author;
 import cz.brazda.cookit.repository.entity.exceptions.AuthorNotFound;
 import cz.brazda.cookit.repository.service.AuthorService;
@@ -19,7 +18,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping(value="/author")
-public class AuthorController extends AbstractController<Author, AuthorDto>{
+public class AuthorController extends BaseController<Author, AuthorDto>{
 
     @Autowired
     private AuthorService authorService;

@@ -11,9 +11,9 @@
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="module" module-name="cz.brazda.cookit.api_main" />
     <orderEntry type="module" module-name="cz.brazda.cookit.repository_main" />
+    <orderEntry type="module" module-name="cz.brazda.cookit-cz.brazda.cookit.common_main" />
     <orderEntry type="library" name="Gradle: javax.ws.rs:javax.ws.rs-api:2.1-m07" level="project" />
     <orderEntry type="library" name="Gradle: com.google.guava:guava:21.0" level="project" />
-    <orderEntry type="module" module-name="cz.brazda.cookit-cz.brazda.cookit.common_main" />
     <orderEntry type="library" name="Gradle: org.modelmapper:modelmapper:0.7.8" level="project" />
     <orderEntry type="library" name="Gradle: junit:junit:4.12" level="project" />
     <orderEntry type="library" name="Gradle: javax.validation:validation-api:1.1.0.Final" level="project" />

@@ -1,4 +1,4 @@
-package cz.brazda.cookit.common.dto;
+package cz.brazda.cookit.rest.api.controllers;
 
 import org.modelmapper.ModelMapper;
 

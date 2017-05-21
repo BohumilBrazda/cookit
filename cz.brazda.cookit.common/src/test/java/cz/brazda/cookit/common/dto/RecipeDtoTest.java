@@ -1,5 +1,6 @@
 package cz.brazda.cookit.common.dto;
 
+import org.junit.runner.RunWith;
 import org.modelmapper.ModelMapper;
 
 /**
