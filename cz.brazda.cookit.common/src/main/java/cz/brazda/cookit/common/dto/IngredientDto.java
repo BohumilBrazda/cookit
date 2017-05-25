@@ -1,9 +1,10 @@
 package cz.brazda.cookit.common.dto;
 
 /**
- * Created by virtual on 14.5.2017.
+ * DTO object for Ingredient entity
+ * Created by Bohumil Brázda on 14.5.2017.
  */
-public class IngredientDto extends AbstractDto {
+public class IngredientDto implements EntityDto {
 
     private Long id;
 

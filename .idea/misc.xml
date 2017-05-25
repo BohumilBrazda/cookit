@@ -4,7 +4,7 @@
     <resource url="http://xmlns.jcp.org/xml/ns/javaee/" location="$PROJECT_DIR$/../javaee_7.xsd" />
     <resource url="http://xmlns.jcp.org/xml/ns/javaee/application_7.xsd" location="$PROJECT_DIR$/../application_7.xsd" />
   </component>
-  <component name="ProjectRootManager" version="2" languageLevel="JDK_1_8" project-jdk-name="1.8" project-jdk-type="JavaSDK">
+  <component name="ProjectRootManager" version="2" languageLevel="JDK_1_8" default="false" project-jdk-name="1.8" project-jdk-type="JavaSDK">
     <output url="file://$PROJECT_DIR$/out" />
   </component>
 </project>

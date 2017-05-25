@@ -3,9 +3,10 @@ package cz.brazda.cookit.common.dto;
 import java.util.List;
 
 /**
- * Created by Bohumil Brázda on 21.5.2017.
+ * DTO object for Meal entity
+ * Created by Bohumil Brázda on 14.5.2017.
  */
-public class MealDto extends AbstractDto {
+public class MealDto implements EntityDto {
 
     private Long id;
     private String name;

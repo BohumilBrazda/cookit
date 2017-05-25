@@ -17,7 +17,7 @@ import java.util.List;
  */
 @RestController
 @RequestMapping(value="/meal")
-public class MealController extends BaseController<Meal, MealDto> {
+public class MealController extends AbstractController<Meal, MealDto> {
 
     @Autowired
     private MealService mealService;

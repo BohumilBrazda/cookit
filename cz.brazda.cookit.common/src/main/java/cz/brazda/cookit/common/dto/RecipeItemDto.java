@@ -3,9 +3,10 @@ package cz.brazda.cookit.common.dto;
 import cz.brazda.cookit.common.Unit;
 
 /**
- * Created by virtual on 14.5.2017.
+ * DTO object for RecipeItem entity
+ * Created by Bohumil Brázda on 14.5.2017.
  */
-public class RecipeItemDto extends AbstractDto {
+public class RecipeItemDto implements EntityDto {
 
     private Long id;
 

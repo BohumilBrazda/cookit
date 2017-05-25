@@ -13,11 +13,11 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 /**
- * Created by virtual on 14.5.2017.
+ * Created by Bohumil Brázda on 14.5.2017.
  */
 @RestController
 @RequestMapping(value="/ingredient")
-public class IngredientController extends BaseController<Ingredient, IngredientDto> {
+public class IngredientController extends AbstractController<Ingredient, IngredientDto> {
 
     @Autowired
     private IngredientService ingredientService;

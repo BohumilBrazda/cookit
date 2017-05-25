@@ -17,7 +17,7 @@ import java.util.List;
  */
 @RestController
 @RequestMapping(value="/recipe")
-public class RecipeController extends BaseController<Recipe, RecipeDto>{
+public class RecipeController extends AbstractController<Recipe, RecipeDto> {
 
     @Autowired
     private RecipeService recipeService;

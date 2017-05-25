@@ -2,6 +2,9 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/client.fx/client.fx.iml" filepath="$PROJECT_DIR$/.idea/modules/client.fx/client.fx.iml" group="client.fx" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/client.fx/client.fx_main.iml" filepath="$PROJECT_DIR$/.idea/modules/client.fx/client.fx_main.iml" group="client.fx" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/client.fx/client.fx_test.iml" filepath="$PROJECT_DIR$/.idea/modules/client.fx/client.fx_test.iml" group="client.fx" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/cz.brazda.cookit.iml" filepath="$PROJECT_DIR$/.idea/modules/cz.brazda.cookit.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/cz.brazda.cookit.common/cz.brazda.cookit-cz.brazda.cookit.common_main.iml" filepath="$PROJECT_DIR$/.idea/modules/cz.brazda.cookit.common/cz.brazda.cookit-cz.brazda.cookit.common_main.iml" group="cz.brazda.cookit.common" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/cz.brazda.cookit.common/cz.brazda.cookit-cz.brazda.cookit.common_test.iml" filepath="$PROJECT_DIR$/.idea/modules/cz.brazda.cookit.common/cz.brazda.cookit-cz.brazda.cookit.common_test.iml" group="cz.brazda.cookit.common" />

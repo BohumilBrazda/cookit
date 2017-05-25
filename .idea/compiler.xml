@@ -1,21 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="CompilerConfiguration">
-    <bytecodeTargetLevel>
+    <bytecodeTargetLevel target="1.8">
+      <module name="client.fx_main" target="1.8" />
+      <module name="client.fx_test" target="1.8" />
       <module name="cz.brazda.cookit-cz.brazda.cookit.common_main" target="1.8" />
       <module name="cz.brazda.cookit-cz.brazda.cookit.common_test" target="1.8" />
       <module name="cz.brazda.cookit.api_main" target="1.8" />
       <module name="cz.brazda.cookit.api_test" target="1.8" />
-      <module name="cz.brazda.cookit.common_main" target="1.8" />
-      <module name="cz.brazda.cookit.common_test" target="1.8" />
       <module name="cz.brazda.cookit.repository_main" target="1.8" />
       <module name="cz.brazda.cookit.repository_test" target="1.8" />
-      <module name="cz.brazda.cookit.ware_ear_main" target="1.8" />
-      <module name="cz.brazda.cookit.ware_ear_test" target="1.8" />
-      <module name="cz.brazda.cookit.ware_web_main" target="1.8" />
-      <module name="cz.brazda.cookit.ware_web_test" target="1.8" />
-      <module name="cz.brazda.cookit.web_main" target="1.8" />
-      <module name="cz.brazda.cookit.web_test" target="1.8" />
       <module name="cz.brazda.cookit_main" target="1.8" />
       <module name="cz.brazda.cookit_test" target="1.8" />
     </bytecodeTargetLevel>

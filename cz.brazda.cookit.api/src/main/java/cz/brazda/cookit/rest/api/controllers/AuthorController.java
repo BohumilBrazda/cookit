@@ -5,11 +5,15 @@ import cz.brazda.cookit.common.dto.AuthorDto;
 import cz.brazda.cookit.repository.entity.Author;
 import cz.brazda.cookit.repository.entity.exceptions.AuthorNotFound;
 import cz.brazda.cookit.repository.service.AuthorService;
+import cz.brazda.cookit.rest.api.controllers.converter.DtoToAuthorConvertor;
 import cz.brazda.cookit.rest.api.utils.RestPreconditions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
+import javax.ws.rs.Consumes;
+import javax.ws.rs.Produces;
+import javax.ws.rs.core.MediaType;
 import java.util.List;
 
 /**
@@ -18,7 +22,9 @@ import java.util.List;
 
 @RestController
 @RequestMapping(value="/author")
-public class AuthorController extends BaseController<Author, AuthorDto>{
+@Consumes(MediaType.APPLICATION_JSON)
+public class AuthorController extends AbstractController<Author, AuthorDto> {
+
 
     @Autowired
     private AuthorService authorService;
@@ -38,6 +44,8 @@ public class AuthorController extends BaseController<Author, AuthorDto>{
 
     @RequestMapping( method = RequestMethod.POST )
     @ResponseStatus( HttpStatus.CREATED )
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
     @ResponseBody
     public AuthorDto create( @RequestBody AuthorDto authorDto ){
         Preconditions.checkNotNull( authorDto );
@@ -45,10 +53,11 @@ public class AuthorController extends BaseController<Author, AuthorDto>{
         return convertToDto(authorService.create(author), AuthorDto.class);
     }
 
-    @RequestMapping(value = "/{id}", method = RequestMethod.PUT)
     @ResponseStatus(HttpStatus.OK)
+    @Consumes(MediaType.APPLICATION_JSON)
+    @RequestMapping(value = "/{id}", method = RequestMethod.PUT)
     public void update(@PathVariable("id") Long id, @RequestBody AuthorDto authorDto) {
-        Author author = convertToEntity(authorDto, Author.class);
+        Author author = convertToEntity(new DtoToAuthorConvertor(), authorDto, Author.class);
         try {
             Author updatedAuthor = authorService.update(author);
             authorService.update(updatedAuthor);

@@ -1,9 +1,10 @@
 package cz.brazda.cookit.common.dto;
 
 /**
- * Created by virtual on 20.5.2017.
+ * DTO object for Author entity
+ * Created by Bohumil Brázda on 14.5.2017.
  */
-public class AuthorDto extends AbstractDto {
+public class AuthorDto implements EntityDto {
 
     private Long id;
     private String firstName;

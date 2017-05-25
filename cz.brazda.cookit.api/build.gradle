@@ -10,7 +10,7 @@ repositories {
 }
 
 dependencies {
-    compile project(":cz.brazda.cookit.repository")
+    compile project(':cz.brazda.cookit.repository')
     compile project (':cz.brazda.cookit.common')
 
     compile group: 'javax.ws.rs', name: 'javax.ws.rs-api', version: '2.1-m07'
