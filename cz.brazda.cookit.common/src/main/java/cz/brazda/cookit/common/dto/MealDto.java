@@ -12,6 +12,17 @@ public class MealDto implements EntityDto {
     private String name;
     private String description;
 
+    private List<RecipeDto> recipes;
+
+    public MealDto(Long id, String name, String description) {
+        this.id = id;
+        this.name = name;
+        this.description = description;
+    }
+
+    public MealDto() {
+    }
+
     public void setId(Long id) {
         this.id = id;
     }
@@ -39,8 +50,6 @@ public class MealDto implements EntityDto {
     public void setRecipes(List<RecipeDto> recipes) {
         this.recipes = recipes;
     }
-
-    private List<RecipeDto> recipes;
 
     @Override
     public Long getId() {

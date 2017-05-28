@@ -1,6 +1,9 @@
 package client.fx.config;
 
+import client.fx.controllers.AuthorsController;
+import client.fx.controllers.MealsController;
 import client.repository.config.RepositoryConfig;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
@@ -13,6 +16,16 @@ import org.springframework.context.annotation.Import;
 @Import({RepositoryConfig.class})
 @ComponentScan("client")
 public class ClientApplConfig {
+
+    @Bean
+    MealsController mealsController(){
+        return new MealsController();
+    }
+
+    @Bean
+    AuthorsController authorsController(){
+        return new AuthorsController();
+    }
 
 
 }

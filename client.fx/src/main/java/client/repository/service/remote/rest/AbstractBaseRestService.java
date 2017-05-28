@@ -4,6 +4,7 @@ import client.repository.model.Entity;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import cz.brazda.cookit.common.dto.EntityDto;
+import org.modelmapper.Converter;
 import org.modelmapper.ModelMapper;
 
 import javax.json.JsonArray;
@@ -37,6 +38,10 @@ public abstract class AbstractBaseRestService<U extends Entity, V extends Entity
         webTarget = client.target(UriBuilder.fromUri(getURIString()).build());
     }
 
+    List<U> findAllEntities(Converter<V, U> converter, Class<V> entityDtoClass, Class<U> entityClass) throws IOException {
+        modelMapper.addConverter(converter);
+        return findAllEntities(entityDtoClass, entityClass);
+    }
     List<U> findAllEntities(Class<V> entityDtoClass, Class<U> entityClass) throws IOException {
         JsonArray jsonArray = webTarget.request().get(JsonArray.class);
         List<U> entities = new ArrayList<>();

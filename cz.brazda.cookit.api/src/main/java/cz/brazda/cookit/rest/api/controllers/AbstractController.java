@@ -23,6 +23,11 @@ abstract class AbstractController<U extends IdElement, V extends EntityDto> {
         return modelMapper.map(entity, dtoClass);
     }
 
+    V convertToDto(Converter<U, V> converter, U entity, Class<V> dtoClass){
+        modelMapper.addConverter(converter);
+        return convertToDto(entity, dtoClass);
+    }
+
     U convertToEntity(V dto, Class<U> entityClass){
         return modelMapper.map(dto, entityClass);
     }
@@ -32,6 +37,10 @@ abstract class AbstractController<U extends IdElement, V extends EntityDto> {
         return convertToEntity(dto, entityClass);
     }
 
+    List<V> convertToDtos(Converter<U, V> converter, List<U> entities, Class<V> dtoClass){
+        modelMapper.addConverter(converter);
+        return convertToDtos(entities, dtoClass);
+    }
     List<V> convertToDtos(List<U> entities, Class<V> dtoClass){
         List<V> dtos = new ArrayList<>();
         for (U entity:entities) {

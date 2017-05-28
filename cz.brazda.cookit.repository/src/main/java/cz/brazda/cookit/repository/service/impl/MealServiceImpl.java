@@ -7,6 +7,7 @@ import cz.brazda.cookit.repository.service.MealService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 
 
 /**
@@ -31,5 +32,10 @@ public class MealServiceImpl extends RepositoryServiceImpl<Meal, MealRepository,
         updatedElement.setDescription(originEntity.getDescription());
         updatedElement.setPictures(originEntity.getPictures());
         updatedElement.setRecipes(originEntity.getRecipes());
+    }
+
+    @Override
+    public List<Meal> findAll() {
+        return super.findAll();
     }
 }

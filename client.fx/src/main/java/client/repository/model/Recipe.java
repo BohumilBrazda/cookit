@@ -1,58 +1,28 @@
-package cz.brazda.cookit.repository.entity;
+package client.repository.model;
 
 
-import cz.brazda.cookit.common.IdElement;
-
-import javax.persistence.*;
-import java.io.Serializable;
 import java.util.List;
 
 /**
  * Created by BOBES on 8.2.2015.
  */
 
-@Entity
-@Table(name = "recipe")
-public class Recipe implements IdElement, Serializable {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "ID")
+public class Recipe implements Entity {
+
     private Long id;
-
-    @Column(name = "name")
     private String name;
-
-    @Column(name = "portions")
     private Integer numberOfPortion;
-
-    @Column(name = "price")
     private Float price;
 
-    @OneToMany(mappedBy="recipe", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<RecipeItem> items;
-
-    @OneToMany
-    @JoinTable(
-            name="recipe_category",
-            joinColumns = @JoinColumn( name="recipe_id"),
-            inverseJoinColumns = @JoinColumn( name="category_id")
-    )
     private List<Category> categories;
 
-    @ManyToOne()
-    @JoinColumn(name = "created_id")
     private UserEvent created;
-
-    @ManyToOne()
-    @JoinColumn(name = "edited_id")
     private UserEvent edited;
 
-    @ManyToOne
-    @JoinColumn(name = "meal_id")
     private Meal meal;
 
-    //hibernate
     public Recipe() {
     }
 

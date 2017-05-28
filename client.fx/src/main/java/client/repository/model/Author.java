@@ -27,6 +27,10 @@ public class Author implements Entity {
         this.firstName = firstName;
     }
 
+    public String getFullName() {
+        return firstName + " " + secondName;
+    }
+
     public String getSecondName() {
         return secondName;
     }
