@@ -14,7 +14,11 @@ public interface RestRemoteService<T extends Entity> {
 
     T get(Long id );
 
+    void delete(Long id );
+
     T create(T entity);
 
     void update(T entity);
+
+
 }

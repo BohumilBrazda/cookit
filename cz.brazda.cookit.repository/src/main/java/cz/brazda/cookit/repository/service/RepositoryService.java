@@ -11,13 +11,13 @@ import java.util.List;
  */
 public interface RepositoryService<T extends IdElement, U extends RepositoryException> {
 
-    public T create(T entity);
+    T create(T entity);
 
-    public T update(T entity) throws U;
+    T update(T entity) throws U;
 
-    public T delete(Long id) throws U;
+    void delete(Long id) throws U;
 
-    public List<T> findAll();
+    List<T> findAll();
 
-    public T findById(Long id);
+    T findById(Long id);
 }

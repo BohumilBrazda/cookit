@@ -10,6 +10,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
+import javax.ws.rs.Consumes;
+import javax.ws.rs.Produces;
+import javax.ws.rs.core.MediaType;
 import java.util.List;
 
 /**
@@ -23,20 +26,36 @@ public class IngredientController extends AbstractController<Ingredient, Ingredi
     private IngredientService ingredientService;
 
     @RequestMapping( method = RequestMethod.GET )
+    @ResponseStatus( HttpStatus.OK )
+    @Produces(MediaType.APPLICATION_JSON)
     public @ResponseBody
     List<IngredientDto> findAll() {
         return convertToDtos(ingredientService.findAll(), IngredientDto.class);
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
+    @ResponseStatus( HttpStatus.OK )
+    @Produces(MediaType.APPLICATION_JSON)
     public @ResponseBody
     IngredientDto findOne(@PathVariable( "id" ) Long id ) {
         Ingredient ingredient = ingredientService.findById(id);
         return RestPreconditions.checkFound(convertToDto(ingredient, IngredientDto.class));
     }
 
+    @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
+    @ResponseStatus( HttpStatus.OK )
+    public void delete(@PathVariable( "id" ) Long id ) {
+        try {
+            ingredientService.delete(id);
+        } catch (IngredientNotFound ingredientNotFound) {
+            ingredientNotFound.printStackTrace();
+        }
+    }
+
     @RequestMapping( method = RequestMethod.POST )
     @ResponseStatus( HttpStatus.CREATED )
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
     @ResponseBody
     public Ingredient create( @RequestBody Ingredient resource ){
         Preconditions.checkNotNull( resource );
@@ -45,6 +64,7 @@ public class IngredientController extends AbstractController<Ingredient, Ingredi
 
     @RequestMapping(value = "/{id}", method = RequestMethod.PUT)
     @ResponseStatus(HttpStatus.OK)
+    @Consumes(MediaType.APPLICATION_JSON)
     public void update(@PathVariable("id") Long id, @RequestBody IngredientDto ingredientDto) {
         Ingredient ingredient = convertToEntity(ingredientDto, Ingredient.class);
         try {

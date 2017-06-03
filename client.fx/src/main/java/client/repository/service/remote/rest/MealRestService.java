@@ -35,7 +35,7 @@ public class MealRestService extends AbstractBaseRestService<Meal, MealDto> {
         try {
             return findAllEntities(MealDto.class, Meal.class);
         } catch (IOException e) {
-            throw new RepositoryServiceRemoteException("Cannot find all authors", e);
+            throw new RepositoryServiceRemoteException("Cannot find all meals", e);
         }
     }
 
@@ -43,6 +43,15 @@ public class MealRestService extends AbstractBaseRestService<Meal, MealDto> {
     public Meal get(Long id) {
 
         return null;
+    }
+
+    @Override
+    public void delete(Long id) {
+        try {
+            deleteEntity(id);
+        } catch (IOException e) {
+            throw new RepositoryServiceRemoteException("Cannot delete meal with id " + id, e);
+        }
     }
 
     /**

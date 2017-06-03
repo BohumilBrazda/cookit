@@ -24,7 +24,7 @@ public class IngredientServiceImpl extends RepositoryServiceImpl<Ingredient, Ing
     }
 
     @Override
-    protected IngredientNotFound createException() {
+    protected IngredientNotFound exception() {
         return new IngredientNotFound();
     }
 

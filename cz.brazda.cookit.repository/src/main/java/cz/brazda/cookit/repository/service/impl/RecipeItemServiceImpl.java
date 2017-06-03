@@ -22,7 +22,7 @@ public class RecipeItemServiceImpl extends RepositoryServiceImpl<RecipeItem, Rec
 
 
     @Override
-    protected RecipeItemNotFound createException() {
+    protected RecipeItemNotFound exception() {
         return new RecipeItemNotFound();
     }
 

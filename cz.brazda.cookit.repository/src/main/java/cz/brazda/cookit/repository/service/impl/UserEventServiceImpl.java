@@ -19,7 +19,7 @@ public class UserEventServiceImpl extends RepositoryServiceImpl<UserEvent, UserE
         repository = userEventRepository;
     }
     @Override
-    protected UserEventNotFound createException() {
+    protected UserEventNotFound exception() {
         return new UserEventNotFound();
     }
 

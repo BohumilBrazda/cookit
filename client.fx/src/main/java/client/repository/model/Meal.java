@@ -2,6 +2,10 @@ package client.repository.model;
 
 
 import cz.brazda.cookit.common.IdElement;
+import javafx.beans.property.LongProperty;
+import javafx.beans.property.SimpleLongProperty;
+import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.property.StringProperty;
 
 import java.io.Serializable;
 import java.util.List;
@@ -11,41 +15,59 @@ import java.util.List;
  */
 public class Meal implements Entity {
 
-    private Long id;
-    private String name;
-    private String description;
+    private LongProperty id = new SimpleLongProperty();
+    private StringProperty name = new SimpleStringProperty();
+
+    private StringProperty description = new SimpleStringProperty();
 
     private List<Object> pictures;
 
     private List<Recipe> recipes;
 
     public Meal(Long id, String name, String description) {
-        this.id = id;
-        this.name = name;
-        this.description = description;
+        this.id.setValue(id);
+        this.name.setValue(name);
+        this.description.setValue(description);
+    }
+
+    public Meal(String name, String description) {
+        this.name.setValue(name);
+        this.description.setValue(description);
     }
 
     public Meal() {
     }
 
-    public void setId(Long id) {
-        this.id = id;
+    public LongProperty idProperty() {
+        return id;
     }
 
-    public String getName() {
+    public StringProperty nameProperty() {
         return name;
     }
 
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getDescription() {
+    public StringProperty descriptionProperty() {
         return description;
     }
 
+    public void setId(Long id) {
+        this.id.setValue(id);
+    }
+
+    public String getName() {
+        return name.get();
+    }
+
+    public void setName(String name) {
+        this.name.setValue(name);
+    }
+
+    public String getDescription() {
+        return description.get();
+    }
+
     public void setDescription(String description) {
-        this.description = description;
+        this.description.setValue(description);
     }
 
     public List<Object> getPictures() {
@@ -65,6 +87,6 @@ public class Meal implements Entity {
     }
 
     public Long getId() {
-        return id;
+        return id.get();
     }
 }

@@ -37,9 +37,22 @@ public class AuthorRestService extends AbstractBaseRestService<Author, AuthorDto
     }
 
     @Override
+    public void delete(Long id) {
+        try {
+            deleteEntity(id);
+        } catch (IOException e) {
+            throw new RepositoryServiceRemoteException("Cannot delete author with id " + id, e);
+        }
+    }
+
+    @Override
     public Author get(Long id) {
 
-        return null;
+        try {
+            return findEntity(id, AuthorDto.class, Author.class);
+        } catch (IOException e) {
+            throw new RepositoryServiceRemoteException("Cannot find author with id ", e);
+        }
     }
 
     /**

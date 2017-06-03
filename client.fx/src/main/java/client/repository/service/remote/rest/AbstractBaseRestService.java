@@ -3,6 +3,7 @@ package client.repository.service.remote.rest;
 import client.repository.model.Entity;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.sun.istack.internal.NotNull;
 import cz.brazda.cookit.common.dto.EntityDto;
 import org.modelmapper.Converter;
 import org.modelmapper.ModelMapper;
@@ -14,6 +15,7 @@ import javax.ws.rs.client.Client;
 import javax.ws.rs.client.WebTarget;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.UriBuilder;
+import javax.xml.bind.util.JAXBSource;
 import java.io.IOException;
 import java.net.URI;
 import java.util.ArrayList;
@@ -24,6 +26,7 @@ import java.util.List;
  */
 public abstract class AbstractBaseRestService<U extends Entity, V extends EntityDto> implements RestRemoteService<U>{
 
+    private static final String PATH_DELIMITER = "/";
     private ModelMapper modelMapper;
     private Client client;
 
@@ -48,6 +51,14 @@ public abstract class AbstractBaseRestService<U extends Entity, V extends Entity
         entities.addAll(convertToEntities(jsonArray, entityDtoClass, entityClass));
         return entities;
     }
+    U findEntity(@NotNull Long id, Class<V> entityDtoClass, Class<U> entityClass) throws IOException {
+        JsonValue jsonValue = webTarget.path(PATH_DELIMITER).path(id.toString()).request().get(JsonValue.class);
+        return convertDtoToEntity(jsonValue, entityDtoClass, entityClass);
+    }
+
+    void deleteEntity(@NotNull Long id) throws IOException {
+        webTarget.path(PATH_DELIMITER).path(id.toString()).request().delete(JsonValue.class);
+    }
 
     U createEntity(U entity, Class<V> entityDtoClass, Class<U> entityClass) throws IOException {
         V entityDto = convertToDto(entity, entityDtoClass);
@@ -59,7 +70,7 @@ public abstract class AbstractBaseRestService<U extends Entity, V extends Entity
     void updateEntity(U entity, Class<V> entityDtoClass){
         V entityDto = convertToDto(entity,entityDtoClass);
         javax.ws.rs.client.Entity<V> wsEntity = javax.ws.rs.client.Entity.entity(entityDto, MediaType.APPLICATION_JSON);
-        webTarget.path("/" ).path(entity.getId().toString()).request().put(wsEntity, JsonValue.class);
+        webTarget.path(PATH_DELIMITER).path(entity.getId().toString()).request().put(wsEntity, JsonValue.class);
     }
 
 

@@ -22,7 +22,7 @@ public class MealServiceImpl extends RepositoryServiceImpl<Meal, MealRepository,
     }
 
     @Override
-    protected MealNotFound createException() {
+    protected MealNotFound exception() {
         return new MealNotFound();
     }
 

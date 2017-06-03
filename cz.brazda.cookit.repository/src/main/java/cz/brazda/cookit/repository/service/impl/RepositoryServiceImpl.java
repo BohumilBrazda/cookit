@@ -20,10 +20,9 @@ public abstract class RepositoryServiceImpl<T extends IdElement, U extends JpaRe
 
     /**
      * Create new instance of concrete exception
-     * @param <V extends RepositoryException> exception
      * @return new instance of exception
      */
-    protected abstract V createException();
+    protected abstract V exception();
 
     /**
      * Define details attributes from updated entity
@@ -40,14 +39,12 @@ public abstract class RepositoryServiceImpl<T extends IdElement, U extends JpaRe
 
     @Override
     @Transactional(rollbackFor = RepositoryException.class)
-    public T delete(Long id) throws V {
+    public void delete(Long id) throws V {
         T deletedEntity = findById(id);
         if(deletedEntity == null){
-            throw createException();
+            throw exception();
         }
         repository.delete(deletedEntity);
-
-        return deletedEntity;
     }
 
     @Override
@@ -55,7 +52,7 @@ public abstract class RepositoryServiceImpl<T extends IdElement, U extends JpaRe
     public T update(T entity) throws V {
         T updatedEntity = findById(entity.getId());
         if(updatedEntity == null){
-            throw createException();
+            throw exception();
         }
         updateEntity(updatedEntity, entity);
         return updatedEntity;

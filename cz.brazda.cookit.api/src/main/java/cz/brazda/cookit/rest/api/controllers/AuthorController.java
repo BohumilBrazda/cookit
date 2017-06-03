@@ -25,21 +25,34 @@ import java.util.List;
 @Consumes(MediaType.APPLICATION_JSON)
 public class AuthorController extends AbstractController<Author, AuthorDto> {
 
-
     @Autowired
     private AuthorService authorService;
 
     @RequestMapping( method = RequestMethod.GET )
+    @Produces(MediaType.APPLICATION_JSON)
+    @ResponseStatus( HttpStatus.OK )
     public @ResponseBody
     List<AuthorDto> findAll() {
         return convertToDtos(authorService.findAll(), AuthorDto.class);
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
+    @Produces(MediaType.APPLICATION_JSON)
+    @ResponseStatus( HttpStatus.OK )
     public @ResponseBody
     AuthorDto get(@PathVariable( "id" ) Long id ) {
         Author author = authorService.findById(id);
         return RestPreconditions.checkFound(convertToDto(author, AuthorDto.class));
+    }
+
+    @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
+    @ResponseStatus( HttpStatus.OK )
+    public void delete(@PathVariable( "id" ) Long id ) {
+        try {
+            authorService.delete(id);
+        } catch (AuthorNotFound authorNotFound) {
+            authorNotFound.printStackTrace();
+        }
     }
 
     @RequestMapping( method = RequestMethod.POST )
@@ -59,8 +72,7 @@ public class AuthorController extends AbstractController<Author, AuthorDto> {
     public void update(@PathVariable("id") Long id, @RequestBody AuthorDto authorDto) {
         Author author = convertToEntity(new DtoToAuthorConvertor(), authorDto, Author.class);
         try {
-            Author updatedAuthor = authorService.update(author);
-            authorService.update(updatedAuthor);
+            authorService.update(author);
         } catch (AuthorNotFound authorNotFound) {
             authorNotFound.printStackTrace();
         }

@@ -20,7 +20,7 @@ public class AuthorServiceImpl extends RepositoryServiceImpl<Author, AuthorRepos
     }
 
     @Override
-    protected AuthorNotFound createException() {
+    protected AuthorNotFound exception() {
         return new AuthorNotFound();
     }
 

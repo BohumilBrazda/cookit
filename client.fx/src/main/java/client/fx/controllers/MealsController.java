@@ -1,22 +1,16 @@
 package client.fx.controllers;
 
-import client.fx.config.ClientApplConfig;
 import client.repository.model.Author;
 import client.repository.model.Meal;
-import client.repository.service.remote.rest.AuthorRestService;
 import client.repository.service.remote.rest.MealRestService;
 import de.felixroske.jfxsupport.FXMLController;
 import javafx.collections.FXCollections;
+import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
-import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.scene.layout.AnchorPane;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.ApplicationContext;
-import org.springframework.context.annotation.AnnotationConfigApplicationContext;
-import org.springframework.stereotype.Component;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -24,13 +18,8 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
-import org.springframework.stereotype.Service;
 
-import javax.annotation.PostConstruct;
-import java.io.IOException;
 import java.net.URL;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.ResourceBundle;
 
 /**
@@ -44,7 +33,7 @@ public class MealsController implements Initializable{
     @Autowired
     private MealRestService mealRestService;
 
-    private List<Meal> meals = new ArrayList<>();
+    private Meal selection;
 
     @FXML
     private TextField txtName;
@@ -82,14 +71,23 @@ public class MealsController implements Initializable{
     @FXML
     private Label lblServerStatus;
 
+    private ObservableList<Meal> tableData;
+
     @FXML
     void newAction(ActionEvent event) {
-
+        Meal meal = new Meal(txtName.getText(), txDescription.getText());
+        Meal createdMeal = mealRestService.create(meal);
+        tableData.add(createdMeal);
+        mealsTable.refresh();
     }
 
     @FXML
     void removeAction(ActionEvent event) {
-
+        if(selection != null){
+            mealRestService.delete(selection.getId());
+            tableData.remove(selection);
+            mealsTable.refresh();
+        }
     }
 
     @FXML
@@ -99,23 +97,48 @@ public class MealsController implements Initializable{
 
     @FXML
     void updateAction(ActionEvent event) {
-
+        Meal mealToUpdate = mealsTable.getSelectionModel().getSelectedItem();
+        mealRestService.update(mealToUpdate);
+        mealsTable.refresh();
+    }
+    private void initColumnsData() {
+        tableData = FXCollections.observableArrayList(mealRestService.findAll());
+        mealsTable.setItems(tableData);
     }
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+        initColumnsData();
+        bindTableColumns();
+        createDetailFieldsBinding();
+    }
+
+    private void createDetailFieldsBinding() {
+
+        mealsTable.getSelectionModel().getSelectedItems().addListener((ListChangeListener<Meal>) c -> {
+            if(!c.getList().isEmpty()){
+                if(selection != null){
+                    txtName.textProperty().unbindBidirectional(selection.nameProperty());
+                    txDescription.textProperty().unbindBidirectional(selection.descriptionProperty());
+                }
+                selection = c.getList().get(0);
+                txtName.textProperty().bindBidirectional(selection.nameProperty());
+                txDescription.textProperty().bindBidirectional(selection.descriptionProperty());
+            }
+        });
+
+    }
+
+    private void bindTableColumns() {
         id.setCellValueFactory(
-                new PropertyValueFactory<Meal, Long>("id")
+                new PropertyValueFactory<>("id")
         );
         name.setCellValueFactory(
-                new PropertyValueFactory<Meal, String>("name")
+                new PropertyValueFactory<>("name")
         );
         description.setCellValueFactory(
-                new PropertyValueFactory<Meal, String>("description")
+                new PropertyValueFactory<>("description")
         );
-        meals = mealRestService.findAll();
-        ObservableList<Meal> data = FXCollections.observableArrayList(meals);
-        mealsTable.setItems(data);
     }
 
 }
