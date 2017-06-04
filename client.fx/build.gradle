@@ -1,3 +1,7 @@
+plugins {
+    id 'org.springframework.boot' version '1.5.3.RELEASE'
+}
+
 version '0.0.1'
 
 apply plugin: 'java'
@@ -9,7 +13,10 @@ repositories {
     mavenCentral()
 }
 
+
 dependencies {
+
+
     compile project(':cz.brazda.cookit.common')
 
     compile group: 'org.springframework', name: 'spring-context', version: '4.3.8.RELEASE'

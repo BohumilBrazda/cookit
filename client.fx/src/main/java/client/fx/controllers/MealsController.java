@@ -2,6 +2,7 @@ package client.fx.controllers;
 
 import client.repository.model.Author;
 import client.repository.model.Meal;
+import client.repository.service.remote.exceptions.RepositoryServiceRemoteException;
 import client.repository.service.remote.rest.MealRestService;
 import de.felixroske.jfxsupport.FXMLController;
 import javafx.collections.FXCollections;
@@ -19,6 +20,8 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 
+import javax.ws.rs.ProcessingException;
+import java.net.ConnectException;
 import java.net.URL;
 import java.util.ResourceBundle;
 

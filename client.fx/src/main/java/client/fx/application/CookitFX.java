@@ -1,5 +1,6 @@
 package client.fx.application;
 
+import client.fx.application.splash.CookitSplashScreen;
 import client.fx.config.ClientApplConfig;
 import client.fx.views.MainView;
 import de.felixroske.jfxsupport.AbstractJavaFxApplicationSupport;
@@ -17,6 +18,6 @@ public class CookitFX extends AbstractJavaFxApplicationSupport {
 
 
     public static void main(String[] args) {
-        launchApp(CookitFX.class, MainView.class, args);
+        launchApp(CookitFX.class, MainView.class, new CookitSplashScreen(),args);
     }
 }
