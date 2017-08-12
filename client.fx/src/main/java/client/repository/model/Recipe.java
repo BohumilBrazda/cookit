@@ -1,6 +1,8 @@
 package client.repository.model;
 
 
+import javafx.beans.property.*;
+
 import java.util.List;
 
 /**
@@ -10,25 +12,57 @@ import java.util.List;
 
 public class Recipe implements Entity {
 
-    private Long id;
-    private String name;
-    private Integer numberOfPortion;
-    private Float price;
+    private LongProperty id = new SimpleLongProperty();
 
+    private StringProperty name = new SimpleStringProperty();
+    private IntegerProperty numberOfPortion = new SimpleIntegerProperty();
+    private FloatProperty price = new SimpleFloatProperty();
     private List<RecipeItem> items;
+
     private List<Category> categories;
-
     private UserEvent created;
-    private UserEvent edited;
 
+    private UserEvent edited;
     private Meal meal;
 
     public Recipe() {
     }
 
     public Recipe(Long id, String name) {
-        this.id = id;
-        this.name = name;
+        this.id.setValue(id);
+        this.name.setValue(name);
+    }
+
+    public Recipe(String name) {
+        this.name.setValue(name);
+    }
+
+    public LongProperty idProperty() {
+        return id;
+    }
+
+    public void setId(long id) {
+        this.id.set(id);
+    }
+
+    public StringProperty nameProperty() {
+        return name;
+    }
+
+    public IntegerProperty numberOfPortionProperty() {
+        return numberOfPortion;
+    }
+
+    public void setNumberOfPortion(int numberOfPortion) {
+        this.numberOfPortion.set(numberOfPortion);
+    }
+
+    public FloatProperty priceProperty() {
+        return price;
+    }
+
+    public void setPrice(float price) {
+        this.price.set(price);
     }
 
     public Meal getMeal() {
@@ -40,19 +74,19 @@ public class Recipe implements Entity {
     }
 
     public Long getId() {
-        return id;
+        return id.get();
     }
 
     public void setId(Long id) {
-        this.id = id;
+        this.id.setValue(id);
     }
 
     public String getName() {
-        return name;
+        return name.get();
     }
 
     public void setName(String name) {
-        this.name = name;
+        this.name.set(name);
     }
 
     public List<Category> getCategories() {
@@ -70,19 +104,19 @@ public class Recipe implements Entity {
     }
 
     public Integer getNumberOfPortion() {
-        return numberOfPortion;
+        return numberOfPortion.get();
     }
 
     public void setNumberOfPortion(Integer numberOfPortion) {
-        this.numberOfPortion = numberOfPortion;
+        this.numberOfPortion.set(numberOfPortion);
     }
 
     public Float getPrice() {
-        return price;
+        return price.get();
     }
 
     public void setPrice(Float price) {
-        this.price = price;
+        this.price.set(price);
     }
 
     public UserEvent getCreated() {

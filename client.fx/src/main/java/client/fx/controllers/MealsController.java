@@ -29,7 +29,7 @@ import java.util.ResourceBundle;
  * Created by Bohumil Brázda on 27.5.2017.
  */
 
-@FXMLController()
+@FXMLController
 public class MealsController implements Initializable{
 
 

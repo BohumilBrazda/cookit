@@ -1,10 +1,7 @@
 package client.repository.service.remote.rest;
 
-import client.repository.model.Author;
 import client.repository.model.Meal;
 import client.repository.service.remote.exceptions.RepositoryServiceRemoteException;
-import client.repository.service.remote.rest.converters.DtoToMealConverter;
-import cz.brazda.cookit.common.dto.AuthorDto;
 import cz.brazda.cookit.common.dto.MealDto;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Component;
@@ -41,8 +38,11 @@ public class MealRestService extends AbstractBaseRestService<Meal, MealDto> {
 
     @Override
     public Meal get(Long id) {
-
-        return null;
+        try {
+            return findEntity(id, MealDto.class, Meal.class);
+        } catch (IOException e) {
+            throw new RepositoryServiceRemoteException("Cannot find meal with id: " + id, e);
+        }
     }
 
     @Override

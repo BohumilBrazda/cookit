@@ -9,16 +9,31 @@ import java.util.List;
 public class RecipeDto implements EntityDto {
 
     private Long id;
-
     private String name;
-
     private Integer numberOfPortion;
     private Float price;
+
     private List<RecipeItemDto> items;
+    private MealDto meal;
+
+    public RecipeDto(Long id, String name, Integer numberOfPortion, Float price) {
+        this.id = id;
+        this.name = name;
+        this.numberOfPortion = numberOfPortion;
+        this.price = price;
+    }
 
     @Override
     public Long getId() {
         return id;
+    }
+
+    public MealDto getMeal() {
+        return meal;
+    }
+
+    public void setMeal(MealDto meal) {
+        this.meal = meal;
     }
 
     public void setId(Long id) {

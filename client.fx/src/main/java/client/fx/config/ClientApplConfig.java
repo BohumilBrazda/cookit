@@ -2,7 +2,9 @@ package client.fx.config;
 
 import client.fx.controllers.AuthorsController;
 import client.fx.controllers.MealsController;
+import client.fx.controllers.RecipesController;
 import client.repository.config.RepositoryConfig;
+import cz.brazda.cookit.rest.api.controllers.converter.MealToDtoConverter;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
@@ -18,14 +20,18 @@ import org.springframework.context.annotation.Import;
 public class ClientApplConfig {
 
     @Bean
-    MealsController mealsController(){
+    MealsController mealsController() {
         return new MealsController();
     }
 
     @Bean
-    AuthorsController authorsController(){
+    AuthorsController authorsController() {
         return new AuthorsController();
     }
 
+    @Bean
+    RecipesController recipesController() {
+        return new RecipesController();
+    }
 
 }

@@ -24,6 +24,7 @@
     <fx:define>
         <fx:include source="/fxml/MealsView.fxml" fx:id="mealsView"/>
         <fx:include source="/fxml/AuthorsView.fxml" fx:id="authorView"/>
+        <fx:include source="/fxml/RecipesView.fxml" fx:id="recipesView"/>
     </fx:define>
     <children>
       <MenuBar AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
@@ -81,7 +82,7 @@
                                 <TabPane fx:id="EntitiesTabPane" prefHeight="200.0" prefWidth="200.0" tabClosingPolicy="UNAVAILABLE" VBox.vgrow="ALWAYS">
                                     <tabs>
                                         <Tab fx:id="mealsTabPane" text="Meals" content="$mealsView"/>
-                                        <Tab fx:id="recipesTabPane" text="Recipes">
+                                        <Tab fx:id="recipesTabPane" text="Recipes" content="$recipesView">
                                         </Tab>
                                         <Tab fx:id="authorsTab" text="Authors" content="$authorView">
 

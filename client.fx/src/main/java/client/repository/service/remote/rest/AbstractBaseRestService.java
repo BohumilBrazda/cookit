@@ -6,6 +6,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import cz.brazda.cookit.common.dto.EntityDto;
 import org.modelmapper.Converter;
 import org.modelmapper.ModelMapper;
+import org.modelmapper.PropertyMap;
 
 import javax.json.JsonArray;
 import javax.json.JsonStructure;
@@ -28,7 +29,7 @@ public abstract class AbstractBaseRestService<U extends Entity, V extends Entity
     private Client client;
 
     private final WebTarget webTarget;
-
+    private PropertyMap<JsonNode, V> map;
     protected abstract String getURIString();
 
     AbstractBaseRestService(ModelMapper modelMapper, Client client) {
@@ -38,8 +39,14 @@ public abstract class AbstractBaseRestService<U extends Entity, V extends Entity
         webTarget = client.target(UriBuilder.fromUri(getURIString()).build());
     }
 
-    List<U> findAllEntities(Converter<V, U> converter, Class<V> entityDtoClass, Class<U> entityClass) throws IOException {
-        modelMapper.addConverter(converter);
+    List<U> findAllEntities(PropertyMap<JsonNode, V> map, Class<V> entityDtoClass, Class<U> entityClass) throws IOException {
+        this.map =map;
+        return findAllEntities(entityDtoClass, entityClass);
+    }
+    List<U> findAllEntities(List<Converter> converters, Class<V> entityDtoClass, Class<U> entityClass) throws IOException {
+        for (Converter converter: converters) {
+            modelMapper.addConverter(converter);
+        }
         return findAllEntities(entityDtoClass, entityClass);
     }
     List<U> findAllEntities(Class<V> entityDtoClass, Class<U> entityClass) throws IOException {
@@ -90,7 +97,10 @@ public abstract class AbstractBaseRestService<U extends Entity, V extends Entity
     }
 
     private U convertDtoToEntity(JsonNode jsonNode, Class<V> dtoClass, Class<U> entityClass) {
-        V dto = modelMapper.map(jsonNode, dtoClass);
+        if(map != null){
+            modelMapper.createTypeMap(jsonNode, dtoClass).addMappings(map);
+        }
+        V dto = modelMapper.map(jsonNode, dtoClass, "flat");
         return modelMapper.map(dto, entityClass);
     }
 
