@@ -17,7 +17,7 @@ public class Recipe implements IdElement, Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "ID")
+    @Column(name = "id")
     private Long id;
 
     @Column(name = "name")
@@ -32,13 +32,13 @@ public class Recipe implements IdElement, Serializable {
     @OneToMany(mappedBy="recipe", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<RecipeItem> items;
 
-    @OneToMany
-    @JoinTable(
-            name="recipe_category",
-            joinColumns = @JoinColumn( name="recipe_id"),
-            inverseJoinColumns = @JoinColumn( name="category_id")
-    )
-    private List<Category> categories;
+//    @OneToMany
+//    @JoinTable(
+//            name="recipe_category",
+//            joinColumns = @JoinColumn( name="recipe_id"),
+//            inverseJoinColumns = @JoinColumn( name="category_id")
+//    )
+//    private List<Category> categories;
 
     @ManyToOne()
     @JoinColumn(name = "created_id")
@@ -53,7 +53,20 @@ public class Recipe implements IdElement, Serializable {
     private Meal meal;
 
     //hibernate
+
     public Recipe() {
+    }
+
+    public Recipe(Long id, String name, Integer numberOfPortion, Float price, List<RecipeItem> items, UserEvent created, UserEvent edited, Meal meal) {
+        this.id = id;
+        this.name = name;
+        this.numberOfPortion = numberOfPortion;
+        this.price = price;
+        this.items = items;
+        //this.categories = categories;
+        this.created = created;
+        this.edited = edited;
+        this.meal = meal;
     }
 
     public Recipe(Long id, String name) {
@@ -85,13 +98,13 @@ public class Recipe implements IdElement, Serializable {
         this.name = name;
     }
 
-    public List<Category> getCategories() {
-        return categories;
-    }
-
-    public void setCategories(List<Category> categories) {
-        this.categories = categories;
-    }
+//    public List<Category> getCategories() {
+//        return categories;
+//    }
+//
+//    public void setCategories(List<Category> categories) {
+//        this.categories = categories;
+//    }
 
     public List<RecipeItem> getItems() { return items;   }
 

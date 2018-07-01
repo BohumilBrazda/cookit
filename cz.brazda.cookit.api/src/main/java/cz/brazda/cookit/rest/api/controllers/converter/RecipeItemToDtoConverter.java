@@ -1,0 +1,25 @@
+package cz.brazda.cookit.rest.api.controllers.converter;
+
+import cz.brazda.cookit.common.dto.RecipeDto;
+import cz.brazda.cookit.common.dto.RecipeItemDto;
+import cz.brazda.cookit.repository.entity.RecipeItem;
+import org.modelmapper.AbstractConverter;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.convert.ReadingConverter;
+import org.springframework.stereotype.Component;
+
+@Component
+public class RecipeItemToDtoConverter extends AbstractConverter<RecipeItem, RecipeItemDto> {
+
+    @Autowired
+    private IngredientToDtoConverter ingredientToDtoConverter;
+
+    @Autowired
+    private RecipeToDtoConverter recipeToDtoConverter;
+
+    @Override
+    protected RecipeItemDto convert(RecipeItem source) {
+        RecipeDto recipeDto = recipeToDtoConverter.convert(source.getRecipe());
+        return source == null ? null : new RecipeItemDto(source.getId(), recipeDto, source.getName(),source.getDescription(), source.getAmount(), ingredientToDtoConverter.convert(source.getIngredient()), source.getUnit());
+    }
+}

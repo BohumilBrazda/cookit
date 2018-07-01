@@ -16,6 +16,23 @@ public class RecipeItemDto implements EntityDto {
     private IngredientDto ingredient;
     private Unit unit;
 
+    private RecipeDto recipeDto;
+
+    public RecipeItemDto(Long id, RecipeDto recipe, String name, String description, Double amount, IngredientDto ingredient, Unit unit) {
+        this.id = id;
+        this.recipeDto = recipe;
+        this.name = name;
+        this.description = description;
+        this.amount = amount;
+        this.ingredient = ingredient;
+        this.unit = unit;
+    }
+
+    public RecipeItemDto() {
+    }
+
+    public RecipeDto getRecipeDto(){return recipeDto; }
+
     public String getName() {
         return name;
     }
@@ -54,6 +71,10 @@ public class RecipeItemDto implements EntityDto {
 
     public void setIngredient(IngredientDto ingredient) {
         this.ingredient = ingredient;
+    }
+
+    public void setRecipeDto(RecipeDto recipeDto){
+        this.recipeDto = recipeDto;
     }
 
     @Override

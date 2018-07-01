@@ -23,6 +23,12 @@ public class Author implements Entity {
         setSecondName(secondName);
     }
 
+    public Author(long id, String firstName, String secondName) {
+        setId(id);
+        setFirstName(firstName);
+        setSecondName(secondName);
+    }
+
     public void setId(Long id) {
         this.id.setValue(id);
     }

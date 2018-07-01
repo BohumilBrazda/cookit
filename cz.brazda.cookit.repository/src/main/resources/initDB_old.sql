@@ -159,11 +159,11 @@ DEFAULT CHARACTER SET = utf8;
 
 
 -- -----------------------------------------------------
--- Table `cookit`.`recipe`
+-- Table `cookit`.`recipeDto`
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS `cookit`.`recipe` ;
+DROP TABLE IF EXISTS `cookit`.`recipeDto` ;
 
-CREATE TABLE IF NOT EXISTS `cookit`.`recipe` (
+CREATE TABLE IF NOT EXISTS `cookit`.`recipeDto` (
   `id` BIGINT(20) NOT NULL AUTO_INCREMENT,
   `name` VARCHAR(200) NULL DEFAULT NULL,
   `portions` INT(11) NULL DEFAULT NULL,
@@ -233,14 +233,14 @@ DROP TABLE IF EXISTS `cookit`.`recipe_picture` ;
 
 CREATE TABLE IF NOT EXISTS `cookit`.`recipe_picture` (
   `id` BIGINT(20) NOT NULL AUTO_INCREMENT,
-  `recipe` BIGINT(20) NOT NULL,
+  `recipeDto` BIGINT(20) NOT NULL,
   `picture_id` BIGINT(20) NOT NULL,
   PRIMARY KEY (`id`),
   INDEX `FK_PICTURE_ID_idx` (`picture_id` ASC),
-  INDEX `fk_recipe_id` (`recipe` ASC),
+  INDEX `fk_recipe_id` (`recipeDto` ASC),
   CONSTRAINT `fk_recipe_id`
-    FOREIGN KEY (`recipe`)
-    REFERENCES `cookit`.`recipe` (`id`)
+    FOREIGN KEY (`recipeDto`)
+    REFERENCES `cookit`.`recipeDto` (`id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
   CONSTRAINT `fk_recipe_picture_id`

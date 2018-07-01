@@ -2,43 +2,39 @@ package client.repository.service.remote.rest;
 
 import client.repository.model.Recipe;
 import client.repository.service.remote.exceptions.RepositoryServiceRemoteException;
-import client.repository.service.remote.rest.converters.DtoToRecipeConverter;
-import client.repository.service.remote.rest.converters.DtoToRecipeListConverter;
-import client.repository.service.remote.rest.converters.RecipeToDtoConverter;
 import com.fasterxml.jackson.databind.JsonNode;
 import cz.brazda.cookit.common.dto.RecipeDto;
 import cz.brazda.cookit.common.dto.RecipeItemDto;
 import org.modelmapper.Converter;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.PropertyMap;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Configurable;
 import org.springframework.stereotype.Component;
 
 import javax.ws.rs.client.Client;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 
 /**
  * Created by Bohumil Brázda on 9.7.2017.
  */
 @Component
+@Configurable(preConstruction = true)
 public class RecipeRestService extends AbstractBaseRestService<Recipe, RecipeDto> {
 
     private static final String WS_URI = "http://localhost:8080/cookit/recipe";
 
-    public RecipeRestService(ModelMapper modelMapper, Client client) {
-        super(modelMapper, client);
+    @Autowired
+    public RecipeRestService(List<Converter> converters, ModelMapper modelMapper, Client client) {
+        super(converters, modelMapper, client);
     }
 
     @Override
     public List<Recipe> findAll() {
         try {
-            PropertyMap<JsonNode, RecipeDto> orderMap = new PropertyMap<JsonNode, RecipeDto>() {
-                protected void configure() {
-                    map().setItems(this.<List<RecipeItemDto>>source("items"));
-                }
-            };
-            return findAllEntities(orderMap, RecipeDto.class, Recipe.class);
+
+            return findAllEntities(RecipeDto.class, Recipe.class);
         } catch (IOException e) {
             throw new RepositoryServiceRemoteException("Cannot find all recipes", e);
         }

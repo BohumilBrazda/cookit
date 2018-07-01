@@ -4,7 +4,9 @@ import client.repository.model.Meal;
 import cz.brazda.cookit.common.dto.MealDto;
 
 import org.modelmapper.AbstractConverter;
+import org.springframework.stereotype.Component;
 
+@Component
 public class DtoToMealConverter extends AbstractConverter<MealDto, Meal> {
 
     @Override

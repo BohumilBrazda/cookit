@@ -4,7 +4,6 @@ import client.fx.controllers.AuthorsController;
 import client.fx.controllers.MealsController;
 import client.fx.controllers.RecipesController;
 import client.repository.config.RepositoryConfig;
-import cz.brazda.cookit.rest.api.controllers.converter.MealToDtoConverter;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;

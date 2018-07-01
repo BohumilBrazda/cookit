@@ -1,9 +1,8 @@
 package client.fx.controllers;
 
-import client.repository.model.Meal;
-import client.repository.model.Recipe;
-import client.repository.model.RecipeItem;
-import client.repository.service.remote.rest.RecipeRestService;
+import client.repository.model.*;
+import client.repository.service.remote.rest.*;
+import cz.brazda.cookit.common.Unit;
 import de.felixroske.jfxsupport.FXMLController;
 import javafx.collections.FXCollections;
 import javafx.collections.ListChangeListener;
@@ -17,6 +16,8 @@ import javafx.scene.layout.AnchorPane;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.ResourceBundle;
 
 /**
@@ -30,9 +31,30 @@ public class RecipesController implements Initializable {
     @Autowired
     RecipeRestService recipeRestService;
 
-    private Recipe selection;
+    @Autowired
+    AuthorRestService authorRestService;
+
+    @Autowired
+    IngredientRestService ingredientRestService;
+
+    @Autowired
+    RecipeItemRestService recipeItemRestService;
+
+    @Autowired
+    MealRestService mealRestService;
+
+    @Autowired
+    UserEventRestService userEventRestService;
+
+    private Recipe selectendRecipe;
 
     private ObservableList<Recipe> recipeTableData;
+
+    private ObservableList<Author> authors;
+
+    private ObservableList<Meal> meals;
+
+    private ObservableList<Ingredient> ingredients;
 
     private ObservableList<RecipeItem> recipeItemTableData;
 
@@ -44,6 +66,12 @@ public class RecipesController implements Initializable {
 
     @FXML
     private TextArea txDescription;
+
+    @FXML
+    private ComboBox<Author> cmbAuthor;
+
+    @FXML
+    private ComboBox<Meal> cmbMeal;
 
     @FXML
     private TextField txtSearch;
@@ -60,8 +88,27 @@ public class RecipesController implements Initializable {
     @FXML
     private Button btnNew;
 
+
+    @FXML
+    private TextField txtRecipeItemName;
+
+    @FXML
+    private TextArea txtRecipeItemDescription;
+
+    @FXML
+    private ComboBox<Ingredient> cmbIngredient;
+
+    @FXML
+    private TextField txtAmount;
+
+    @FXML
+    private ComboBox<Unit> cmbUnits;
+
     @FXML
     private TableView<Recipe> recipesTable;
+
+    @FXML
+    private TableView<RecipeItem> recipeItemsTable;
 
     @FXML
     private TableColumn<Recipe, Long> id;
@@ -85,9 +132,6 @@ public class RecipesController implements Initializable {
     private TableColumn<Recipe, String> edited;
 
     @FXML
-    private TableView<RecipeItem> recipeItemsTable;
-
-    @FXML
     private TableColumn<RecipeItem, Long> recipeItemId;
 
     @FXML
@@ -109,8 +153,30 @@ public class RecipesController implements Initializable {
     private Label lblServerStatus;
 
     @FXML
+    private Button btnAddItem;
+
+    @FXML
+    private Button btnUpdateItem;
+
+    @FXML
+    private Button btnRemoveItem;
+
+    @FXML
     void newAction(ActionEvent event) {
         Recipe recipe = new Recipe(txtName.getText());
+        Author author = cmbAuthor.getSelectionModel().getSelectedItem();
+        Meal meal = cmbMeal.getSelectionModel().getSelectedItem();
+
+        UserEvent creationEvent = new UserEvent();
+        creationEvent.setAuthor(author);
+        creationEvent.setEventTime(new Date());
+        UserEvent savedEvent = userEventRestService.create(creationEvent);
+
+
+        recipe.setCreated(savedEvent);
+        recipe.setEdited(savedEvent);
+        recipe.setMeal(meal);
+        recipe.setItems(new ArrayList<>());
         Recipe createdRecipe = recipeRestService.create(recipe);
         recipeTableData.add(createdRecipe);
         recipesTable.refresh();
@@ -142,7 +208,20 @@ public class RecipesController implements Initializable {
         recipeTableData = FXCollections.observableArrayList(recipeRestService.findAll());
         recipesTable.setItems(recipeTableData);
 
-        recipeItemTableData = FXCollections.observableArrayList(selection.getItems());
+        authors = FXCollections.observableArrayList(authorRestService.findAll());
+        cmbAuthor.setItems(authors);
+
+        ingredients = FXCollections.observableArrayList(ingredientRestService.findAll());
+        cmbIngredient.setItems(ingredients);
+
+        cmbUnits.setItems(FXCollections.observableArrayList(Unit.values()));
+
+        meals = FXCollections.observableArrayList(mealRestService.findAll());
+        cmbMeal.setItems(meals);
+
+        if(selectendRecipe != null){
+            recipeItemTableData = FXCollections.observableArrayList(selectendRecipe.getItems());
+        }
     }
 
     private void bindRecipeTableColumns() {
@@ -161,13 +240,49 @@ public class RecipesController implements Initializable {
 
         recipesTable.getSelectionModel().getSelectedItems().addListener((ListChangeListener<Recipe>) c -> {
             if(!c.getList().isEmpty()){
-                if(selection != null){
-                    txtName.textProperty().unbindBidirectional(selection.nameProperty());
+                if(selectendRecipe != null){
+                    txtName.textProperty().unbindBidirectional(selectendRecipe.nameProperty());
                 }
-                selection = c.getList().get(0);
-                txtName.textProperty().bindBidirectional(selection.nameProperty());
+                selectendRecipe = c.getList().get(0);
+                txtName.textProperty().bindBidirectional(selectendRecipe.nameProperty());
             }
         });
 
     }
+
+    @FXML
+    void selectAuthor(ActionEvent event) {
+
+    }
+
+    @FXML
+    void selectMeal(ActionEvent event) {
+
+    }
+
+    @FXML
+    void addItem(ActionEvent event) {
+        RecipeItem item = new RecipeItem();
+        item.setRecipe(selectendRecipe);
+        item.setName(txtRecipeItemName.getText());
+        item.setDescription(txtRecipeItemDescription.getText());
+        item.setAmount(Double.valueOf(txtAmount.getText()));
+        item.setUnit((Unit)cmbUnits.getSelectionModel().getSelectedItem());
+        item.setIngredient(cmbIngredient.getSelectionModel().getSelectedItem());
+
+        RecipeItem createdRecipeItem = recipeItemRestService.create(item);
+        recipeItemTableData.add(createdRecipeItem);
+        recipeItemsTable.refresh();
+    }
+
+    @FXML
+    void updateItem(ActionEvent event) {
+
+    }
+
+    @FXML
+    void removeItem(ActionEvent event) {
+
+    }
+
 }

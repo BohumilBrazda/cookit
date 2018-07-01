@@ -1,12 +1,17 @@
 package client.repository.service.remote.rest;
 
 import client.repository.model.Entity;
+import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.node.ValueNode;
+import com.sun.istack.internal.NotNull;
 import cz.brazda.cookit.common.dto.EntityDto;
-import org.modelmapper.Converter;
-import org.modelmapper.ModelMapper;
-import org.modelmapper.PropertyMap;
+import cz.brazda.cookit.common.dto.RecipeDto;
+import cz.brazda.cookit.common.dto.RecipeItemDto;
+import org.modelmapper.*;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import javax.json.JsonArray;
 import javax.json.JsonStructure;
@@ -22,20 +27,36 @@ import java.util.List;
 /**
  * Created by Bohumil Brázda on 24.5.2017.
  */
+@Component
 public abstract class AbstractBaseRestService<U extends Entity, V extends EntityDto> implements RestRemoteService<U>{
 
     private static final String PATH_DELIMITER = "/";
+
+
+    private List<Converter> converters;
     private ModelMapper modelMapper;
     private Client client;
+    private ObjectMapper objectMapper;
+
 
     private final WebTarget webTarget;
     private PropertyMap<JsonNode, V> map;
     protected abstract String getURIString();
 
-    AbstractBaseRestService(ModelMapper modelMapper, Client client) {
+    @Autowired
+    AbstractBaseRestService(List<Converter> converters, ModelMapper modelMapper, Client client) {
+        this.converters = converters;
         this.modelMapper = modelMapper;
         this.client = client;
+        this.objectMapper = new ObjectMapper();
 
+        converters.forEach((v)->modelMapper.addConverter(v));
+        PropertyMap<JsonNode, RecipeDto> orderMap = new PropertyMap<JsonNode, RecipeDto>() {
+            protected void configure() {
+                map().setItems(this.<List<RecipeItemDto>>source("items"));
+            }
+        };
+        modelMapper.addMappings(orderMap);
         webTarget = client.target(UriBuilder.fromUri(getURIString()).build());
     }
 
@@ -91,24 +112,27 @@ public abstract class AbstractBaseRestService<U extends Entity, V extends Entity
         return dtos;
     }
 
-    private U convertDtoToEntity(JsonValue jsonValue, Class<V> dtoClass, Class<U> entityClass) throws IOException {
-        JsonNode jsonNode = new ObjectMapper().readTree(jsonValue.toString());
+    private U convertDtoToEntity(@NotNull JsonValue jsonValue, Class<V> dtoClass, Class<U> entityClass) throws IOException {
+
+        objectMapper.enable(DeserializationFeature.ACCEPT_EMPTY_ARRAY_AS_NULL_OBJECT);
+        JsonNode jsonNode = objectMapper.readTree(jsonValue.toString());
         return convertDtoToEntity(jsonNode, dtoClass, entityClass);
     }
 
     private U convertDtoToEntity(JsonNode jsonNode, Class<V> dtoClass, Class<U> entityClass) {
-        if(map != null){
-            modelMapper.createTypeMap(jsonNode, dtoClass).addMappings(map);
+            if(map != null){
+                modelMapper.createTypeMap(jsonNode, dtoClass).setPropertyCondition(Conditions.isNotNull()).addMappings(map);
+            }
+            JsonNode items = jsonNode.get("items");
+            V dto = modelMapper.map(jsonNode, dtoClass);
+            return modelMapper.map(dto, entityClass);
         }
-        V dto = modelMapper.map(jsonNode, dtoClass, "flat");
-        return modelMapper.map(dto, entityClass);
-    }
 
-    private List<U> convertToEntities(JsonStructure jsonStructure, Class<V> dtoClass, Class<U> entityClass) throws IOException {
-        List<U> entities = new ArrayList<>();
-        for (JsonValue jsonValue : jsonStructure.asJsonArray()) {
-            entities.add(convertDtoToEntity(jsonValue, dtoClass, entityClass));
-        }
+        private List<U> convertToEntities(@NotNull JsonStructure jsonStructure, Class<V> dtoClass, Class<U> entityClass) throws IOException {
+            List<U> entities = new ArrayList<>();
+            for (JsonValue jsonValue : jsonStructure.asJsonArray()) {
+                entities.add(convertDtoToEntity(jsonValue, dtoClass, entityClass));
+            }
         return entities;
     }
 }

@@ -28,6 +28,18 @@ public class Recipe implements Entity {
     public Recipe() {
     }
 
+    public Recipe(Long id, String name, Integer numberOfPortion, Float price, List<RecipeItem> items, List<Category> categories, UserEvent created, UserEvent edited, Meal meal) {
+        this.id.setValue(id);
+        this.name.setValue(name);
+        this.numberOfPortion.setValue(numberOfPortion);
+        this.price.setValue(price);
+        this.items = items;
+        this.categories = categories;
+        this.created = created;
+        this.edited = edited;
+        this.meal = meal;
+    }
+
     public Recipe(Long id, String name) {
         this.id.setValue(id);
         this.name.setValue(name);

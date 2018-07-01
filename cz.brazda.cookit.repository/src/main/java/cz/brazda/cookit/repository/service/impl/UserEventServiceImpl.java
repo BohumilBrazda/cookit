@@ -25,7 +25,7 @@ public class UserEventServiceImpl extends RepositoryServiceImpl<UserEvent, UserE
 
     @Override
     protected void updateEntity(UserEvent updatedElement, UserEvent originEntity) {
-        updatedElement.setDate(originEntity.getDate());
+        updatedElement.setEventTime(originEntity.getEventTime());
         updatedElement.setAuthor(originEntity.getAuthor());
     }
 }

@@ -1,5 +1,6 @@
 package cz.brazda.cookit.common.dto;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -15,12 +16,21 @@ public class RecipeDto implements EntityDto {
 
     private List<RecipeItemDto> items;
     private MealDto meal;
+    private UserEventDto created;
+    private UserEventDto edited;
 
-    public RecipeDto(Long id, String name, Integer numberOfPortion, Float price) {
+    public RecipeDto() {
+    }
+
+    public RecipeDto(Long id, String name, Integer numberOfPortion, Float price, List<RecipeItemDto> items, UserEventDto created, UserEventDto edited, MealDto meal) {
         this.id = id;
         this.name = name;
         this.numberOfPortion = numberOfPortion;
         this.price = price;
+        this.created = created;
+        this.edited = edited;
+        this.meal = meal;
+        this.items = items;
     }
 
     @Override
@@ -70,6 +80,22 @@ public class RecipeDto implements EntityDto {
 
     public void setItems(List<RecipeItemDto> items) {
         this.items = items;
+    }
+
+    public UserEventDto getCreated() {
+        return created;
+    }
+
+    public void setCreated(UserEventDto created) {
+        this.created = created;
+    }
+
+    public UserEventDto getEdited() {
+        return edited;
+    }
+
+    public void setEdited(UserEventDto edited) {
+        this.edited = edited;
     }
 
     @Override

@@ -14,7 +14,7 @@ public class UserEvent extends Event {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
-    private Long eventId;
+    private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "author_id")
@@ -24,14 +24,24 @@ public class UserEvent extends Event {
     @Temporal(TemporalType.TIMESTAMP)
     private Date eventTime;
 
+    //hibernate
+    public UserEvent() {
+    }
+
+    public UserEvent(Long id, Author author, Date eventTime) {
+        this.id = id;
+        this.author = author;
+        this.eventTime = eventTime;
+    }
+
     @Override
-    public Date getDate() {
+    public Date getEventTime() {
         return eventTime;
     }
 
     @Override
     public Long getId() {
-        return eventId;
+        return id;
     }
 
     @Override
@@ -47,8 +57,12 @@ public class UserEvent extends Event {
         this.author = author;
     }
 
-    public void setDate(Date eventTime){
+    public void setEventTime(Date eventTime){
         this.eventTime = eventTime;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 
 }

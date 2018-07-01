@@ -23,6 +23,15 @@ public class Ingredient implements IdElement, Serializable {
     @Column(name = "description")
     private String description;
 
+    //Hibernate
+    public Ingredient() {
+    }
+
+    public Ingredient(Long id, String name, String description) {
+        this.id = id;
+        this.name = name;
+        this.description = description;
+    }
 
     public String getDescription() {
         return description;

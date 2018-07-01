@@ -15,7 +15,17 @@ public class AuthorDto implements EntityDto {
         return id;
     }
 
+    public AuthorDto() {
+    }
+
+    public AuthorDto(Long id, String firstName, String secondName) {
+        this.id = id;
+        this.firstName = firstName;
+        this.secondName = secondName;
+    }
+
     public String getFirstName() {
+
         return firstName;
     }
 
@@ -56,5 +66,9 @@ public class AuthorDto implements EntityDto {
     @Override
     public int hashCode() {
         return id.hashCode();
+    }
+
+    public String getFullName(){
+        return firstName + " " + secondName;
     }
 }

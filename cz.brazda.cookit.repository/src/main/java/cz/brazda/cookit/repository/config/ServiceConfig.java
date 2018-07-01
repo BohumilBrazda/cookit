@@ -23,33 +23,32 @@ import org.springframework.context.annotation.Configuration;
 @ComponentScan("cz.brazda.cookit.repository")
 public class ServiceConfig {
 
-    @Autowired
-    private AuthorRepository authorRepository;
-    @Autowired
-    private MealRepository mealRepository;
-    @Autowired
-    private RecipeRepository recipeRepository;
-    @Autowired
-    private UserEventRepository userEventRepository;
-
-    @Bean
-    public AuthorService authorService() {
-        return new AuthorServiceImpl(authorRepository);
-    }
-
-
-    @Bean
-    public RecipeService recipeService() {
-        return new RecipeServiceImpl(recipeRepository);
-    }
-
-    @Bean
-    public MealService mealService() {
-        return new MealServiceImpl(mealRepository);
-    }
-
-    @Bean
-    public UserEventService userEventService() {
-        return new UserEventServiceImpl(userEventRepository);
-    }
+//    @Autowired
+//    private AuthorRepository authorRepository;
+//    @Autowired
+//    private MealRepository mealRepository;
+//    @Autowired
+//    private RecipeRepository recipeRepository;
+//    @Autowired
+//    private UserEventRepository userEventRepository;
+//
+//    @Bean
+//    public AuthorService authorService() {
+//        return new AuthorServiceImpl(authorRepository);
+//    }
+//
+//    @Bean
+//    public RecipeService recipeService() {
+//        return new RecipeServiceImpl(recipeRepository);
+//    }
+//
+//    @Bean
+//    public MealService mealService() {
+//        return new MealServiceImpl(mealRepository);
+//    }
+//
+//    @Bean
+//    public UserEventService userEventService() {
+//        return new UserEventServiceImpl(userEventRepository);
+//    }
 }

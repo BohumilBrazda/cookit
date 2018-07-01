@@ -7,6 +7,8 @@ import cz.brazda.cookit.repository.entity.exceptions.MealNotFound;
 import cz.brazda.cookit.repository.service.MealService;
 import cz.brazda.cookit.rest.api.controllers.converter.MealToDtoConverter;
 import cz.brazda.cookit.rest.api.utils.RestPreconditions;
+import org.modelmapper.Converter;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
@@ -23,15 +25,20 @@ import java.util.List;
 @RequestMapping(value="/meal")
 public class MealController extends AbstractController<Meal, MealDto> {
 
-    @Autowired
     private MealService mealService;
+
+    @Autowired
+    public MealController(ModelMapper modelMapper, MealService mealService) {
+        super(modelMapper);
+        this.mealService = mealService;
+    }
 
     @RequestMapping( method = RequestMethod.GET )
     @Produces(MediaType.APPLICATION_JSON)
     @ResponseStatus(HttpStatus.OK)
     public @ResponseBody
     List<MealDto> findAll() {
-        return convertToDtos(new MealToDtoConverter(), mealService.findAll(), MealDto.class);
+        return convertToDtos(mealService.findAll(), MealDto.class);
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)

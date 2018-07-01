@@ -13,6 +13,11 @@ repositories {
     mavenCentral()
 }
 
+compileJava {
+    options.fork = true
+    options.forkOptions.executable = 'javac'
+    options.compilerArgs << "-XDignore.symbol.file"
+}
 
 dependencies {
 
@@ -27,8 +32,8 @@ dependencies {
     compile group: 'org.glassfish.jersey.media', name: 'jersey-media-json-processing', version: '2.25.1'
     compile group: 'org.glassfish.jersey.media', name: 'jersey-media-json-jackson', version: '2.25.1'
 
-    compile group: 'org.modelmapper.extensions', name: 'modelmapper-jackson', version: '0.7.8'
-    compile group: 'org.modelmapper', name: 'modelmapper', version: '0.7.8'
+    compile group: 'org.modelmapper.extensions', name: 'modelmapper-jackson', version: '2.0.0'
+    compile group: 'org.modelmapper', name: 'modelmapper', version: '2.0.0'
 
     compile group: 'com.fasterxml.jackson.core', name: 'jackson-databind', version: '2.8.8'
     compile group: 'com.fasterxml.jackson.core', name: 'jackson-databind', version: '2.8.8'

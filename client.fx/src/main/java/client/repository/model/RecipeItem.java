@@ -15,6 +15,20 @@ public class RecipeItem implements Entity {
     private Double amount;
     private Unit unit;
 
+    public RecipeItem() {
+    }
+
+    public RecipeItem(Long id, Recipe recipe, String name, String description, Double amount, Ingredient ingredient,  Unit unit) {
+        this.id = id;
+        this.recipe = recipe;
+        this.name = name;
+
+        this.description = description;
+        this.ingredient = ingredient;
+        this.amount = amount;
+        this.unit = unit;
+    }
+
     public void setId(Long id) {
         this.id = id;
     }

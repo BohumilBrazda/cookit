@@ -31,6 +31,12 @@ public class Meal implements IdElement, Serializable {
     @OneToMany(mappedBy = "meal", cascade = CascadeType.ALL)
     private List<Recipe> recipes;
 
+    public Meal(Long id, String name, String description) {
+        this.id = id;
+        this.name = name;
+        this.description = description;
+    }
+
     //hibernate
     public Meal() {
     }

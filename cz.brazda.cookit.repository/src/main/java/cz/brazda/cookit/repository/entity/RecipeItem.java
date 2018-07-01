@@ -21,6 +21,7 @@ public class RecipeItem implements IdElement,Serializable {
     private Long id;
 
     @ManyToOne
+    @JoinColumn(name = "recipe_id")
     private Recipe recipe;
 
     @Column(name = "name")
@@ -40,6 +41,22 @@ public class RecipeItem implements IdElement,Serializable {
     @Enumerated(EnumType.ORDINAL)
     @Column(name = "unit")
     private Unit unit;
+
+    //Hibernate
+    public RecipeItem() {
+    }
+
+    public RecipeItem(Long id, Recipe recipe, String name, String description, Double amount, Ingredient ingredient, Unit unit) {
+        this.id = id;
+        this.recipe = recipe;
+        this.name = name;
+        this.description = description;
+        this.amount = amount;
+        this.ingredient = ingredient;
+        this.unit = unit;
+    }
+
+
 
     public void setId(Long id) {
         this.id = id;

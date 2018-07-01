@@ -28,6 +28,7 @@ public class RecipeItemServiceImpl extends RepositoryServiceImpl<RecipeItem, Rec
 
     @Override
     protected void updateEntity(RecipeItem updatedElement, RecipeItem originEntity) {
+        updatedElement.setRecipe(originEntity.getRecipe());
         updatedElement.setAmount(originEntity.getAmount());
         updatedElement.setDescription(originEntity.getDescription());
         updatedElement.setName(originEntity.getName());

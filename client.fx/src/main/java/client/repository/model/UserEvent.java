@@ -7,20 +7,30 @@ import java.util.Date;
  * Created by BOBES on 8.2.2015.
  */
 public class UserEvent extends Event {
-    private Long eventId;
+    private Long id;
 
     private Author author;
 
     private Date eventTime;
 
+    public UserEvent(Long eventId, Author author, Date eventTime) {
+        this.id = eventId;
+        this.author = author;
+        this.eventTime = eventTime;
+    }
+
+    public UserEvent() {
+
+    }
+
     @Override
-    public Date getDate() {
+    public Date getEventTime() {
         return eventTime;
     }
 
     @Override
     public Long getId() {
-        return eventId;
+        return id;
     }
 
     @Override
@@ -36,8 +46,7 @@ public class UserEvent extends Event {
         this.author = author;
     }
 
-    public void setDate(Date eventTime){
+    public void setEventTime(Date eventTime){
         this.eventTime = eventTime;
     }
-
 }

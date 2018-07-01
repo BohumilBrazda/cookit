@@ -3,6 +3,7 @@
 <?import java.lang.String?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
@@ -10,10 +11,13 @@
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.VBox?>
 
-<AnchorPane fx:id="mealView" prefHeight="800.0" prefWidth="1200.0" stylesheets="@css/style.css" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.fx.controllers.RecipesController">
+<AnchorPane fx:id="mealView" prefHeight="800.0" prefWidth="1200.0" stylesheets="@css/style.css" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.fx.controllers.RecipesController">
    <children>
       <BorderPane styleClass="body" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <center>
@@ -47,6 +51,32 @@
                                              </HBox.margin>
                                           </Label>
                                           <TextArea fx:id="txDescription" prefHeight="200.0" HBox.hgrow="ALWAYS" />
+                                       </children>
+                                       <padding>
+                                          <Insets bottom="5.0" top="5.0" />
+                                       </padding>
+                                    </HBox>
+                                    <HBox prefHeight="200.0">
+                                       <children>
+                                          <Label alignment="CENTER_RIGHT" minWidth="100.0" prefWidth="100.0" text="Author" HBox.hgrow="NEVER">
+                                             <HBox.margin>
+                                                <Insets right="10.0" />
+                                             </HBox.margin>
+                                          </Label>
+                                          <ComboBox fx:id="cmbAuthor" onAction="#selectAuthor" prefWidth="150.0" promptText="select Author" />
+                                       </children>
+                                       <padding>
+                                          <Insets bottom="5.0" top="5.0" />
+                                       </padding>
+                                    </HBox>
+                                    <HBox layoutX="20.0" layoutY="77.0" prefHeight="200.0">
+                                       <children>
+                                          <Label alignment="CENTER_RIGHT" minWidth="100.0" prefWidth="100.0" text="Meal" HBox.hgrow="NEVER">
+                                             <HBox.margin>
+                                                <Insets right="10.0" />
+                                             </HBox.margin>
+                                          </Label>
+                                          <ComboBox fx:id="cmbMeal" onAction="#selectMeal" prefWidth="150.0" promptText="select Meal" />
                                        </children>
                                        <padding>
                                           <Insets bottom="5.0" top="5.0" />
@@ -120,16 +150,145 @@
                               </TableView>
                            </children>
                         </AnchorPane>
-                        <TableView fx:id="recipeItemsTable">
-                           <columns>
-                              <TableColumn fx:id="recipeItemId" prefWidth="35.0" text="ID" />
-                              <TableColumn fx:id="recipeItemName" prefWidth="125.0" text="Name" />
-                              <TableColumn fx:id="description" prefWidth="125.0" text="Description" />
-                              <TableColumn fx:id="ingrediets" prefWidth="125.0" text="Ingredient" />
-                              <TableColumn fx:id="amount" prefWidth="125.0" text="Amount" />
-                              <TableColumn fx:id="units" prefWidth="125.0" text="Units" />
-                           </columns>
-                        </TableView>
+                        <VBox prefHeight="410.0" prefWidth="1200.0">
+                           <children>
+                              <GridPane alignment="CENTER_RIGHT" hgap="5.0" vgap="5.0">
+                                <columnConstraints>
+                                  <ColumnConstraints hgrow="SOMETIMES" minWidth="300.0" prefWidth="300.0" />
+                                    <ColumnConstraints hgrow="NEVER" prefWidth="180.0" />
+                                  <ColumnConstraints hgrow="SOMETIMES" />
+                                </columnConstraints>
+                                <rowConstraints>
+                                  <RowConstraints minHeight="30.0" vgrow="SOMETIMES" />
+                                  <RowConstraints minHeight="30.0" vgrow="SOMETIMES" />
+                                  <RowConstraints minHeight="30.0" vgrow="SOMETIMES" />
+                                </rowConstraints>
+                                 <children>
+                                    <HBox alignment="CENTER_RIGHT" spacing="10.0" GridPane.columnIndex="2" GridPane.halignment="RIGHT" GridPane.rowIndex="2">
+                                       <children>
+                                          <Button fx:id="btnAddItem" alignment="CENTER_RIGHT" mnemonicParsing="false" onAction="#addItem" text="Add">
+                                             <styleClass>
+                                                <String fx:value="btn" />
+                                                <String fx:value="btn-new" />
+                                             </styleClass>
+                                          </Button>
+                                          <Button fx:id="btnUpdateItem" alignment="CENTER_RIGHT" mnemonicParsing="false" onAction="#updateItem" text="Update">
+                                             <styleClass>
+                                                <String fx:value="btn" />
+                                                <String fx:value="btn-update" />
+                                             </styleClass>
+                                          </Button>
+                                          <Button fx:id="btnRemoveItem" mnemonicParsing="false" onAction="#removeItem" text="Remove">
+                                             <styleClass>
+                                                <String fx:value="btn" />
+                                                <String fx:value="btn-remove" />
+                                             </styleClass>
+                                          </Button>
+                                       </children>
+                                    </HBox>
+                                    <HBox alignment="CENTER_LEFT" GridPane.rowIndex="2">
+                                       <children>
+                                          <Label alignment="CENTER_RIGHT" minWidth="100.0" prefWidth="100.0" text="Ingredient" HBox.hgrow="NEVER">
+                                             <HBox.margin>
+                                                <Insets right="10.0" />
+                                             </HBox.margin>
+                                          </Label>
+                                          <ComboBox fx:id="cmbIngredient" minHeight="30.0" promptText="select Ingredient">
+                                             <HBox.margin>
+                                                <Insets bottom="5.0" top="5.0" />
+                                             </HBox.margin>
+                                          </ComboBox>
+                                       </children>
+                                       <padding>
+                                          <Insets bottom="5.0" top="5.0" />
+                                       </padding>
+                                    </HBox>
+                                    <HBox alignment="CENTER" prefHeight="35.0" prefWidth="662.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
+                                       <padding>
+                                          <Insets bottom="5.0" left="10.0" top="5.0" />
+                                       </padding>
+                                       <children>
+                                          <Label alignment="CENTER_RIGHT" text="Units" HBox.hgrow="NEVER">
+                                             <HBox.margin>
+                                                <Insets right="10.0" />
+                                             </HBox.margin>
+                                          </Label>
+                                          <ComboBox fx:id="cmbUnits" promptText="select Units" />
+                                       </children>
+                                       <opaqueInsets>
+                                          <Insets />
+                                       </opaqueInsets>
+                                    </HBox>
+                                    <HBox alignment="CENTER" GridPane.rowIndex="1">
+                                       <children>
+                                          <Label alignment="CENTER_RIGHT" minWidth="100.0" prefWidth="100.0" text="Amount" HBox.hgrow="NEVER">
+                                             <HBox.margin>
+                                                <Insets right="10.0" />
+                                             </HBox.margin>
+                                          </Label>
+                                          <TextField fx:id="txtAmount" alignment="CENTER" minHeight="30.0" styleClass="txt-search" HBox.hgrow="ALWAYS" />
+                                       </children>
+                                       <padding>
+                                          <Insets right="10.0" />
+                                       </padding>
+                                    </HBox>
+                                    <HBox alignment="CENTER">
+                                       <children>
+                                          <Label alignment="CENTER_RIGHT" minWidth="100.0" prefWidth="100.0" text="Name" HBox.hgrow="NEVER">
+                                             <HBox.margin>
+                                                <Insets right="10.0" />
+                                             </HBox.margin>
+                                          </Label>
+                                          <TextField fx:id="txtRecipeItemName" minHeight="30.0" styleClass="txt-search" HBox.hgrow="ALWAYS">
+                                             <HBox.margin>
+                                                <Insets bottom="10.0" top="10.0" />
+                                             </HBox.margin>
+                                          </TextField>
+                                       </children>
+                                       <padding>
+                                          <Insets right="10.0" />
+                                       </padding>
+                                    </HBox>
+                                    <HBox alignment="CENTER" prefHeight="100.0" prefWidth="678.0" GridPane.columnIndex="2" GridPane.rowSpan="2">
+                                       <children>
+                                          <Label alignment="CENTER_RIGHT" contentDisplay="CENTER" minWidth="67.0" prefHeight="17.0" prefWidth="67.0" text="Description" HBox.hgrow="NEVER">
+                                             <HBox.margin>
+                                                <Insets right="10.0" />
+                                             </HBox.margin>
+                                          </Label>
+                                          <TextArea fx:id="txtRecipeItemDescription" prefHeight="200.0" HBox.hgrow="ALWAYS">
+                                             <HBox.margin>
+                                                <Insets />
+                                             </HBox.margin>
+                                          </TextArea>
+                                       </children>
+                                       <padding>
+                                          <Insets bottom="5.0" top="5.0" />
+                                       </padding>
+                                    </HBox>
+                                 </children>
+                                 <opaqueInsets>
+                                    <Insets bottom="5.0" top="5.0" />
+                                 </opaqueInsets>
+                                 <VBox.margin>
+                                    <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                                 </VBox.margin>
+                              </GridPane>
+                              <TableView fx:id="recipeItemsTable" prefHeight="233.0" prefWidth="1200.0">
+                                 <columns>
+                                    <TableColumn fx:id="recipeItemId" prefWidth="35.0" text="ID" />
+                                    <TableColumn fx:id="recipeItemName" prefWidth="125.0" text="Name" />
+                                    <TableColumn fx:id="description" prefWidth="125.0" text="Description" />
+                                    <TableColumn fx:id="ingrediets" prefWidth="125.0" text="Ingredient" />
+                                    <TableColumn fx:id="amount" prefWidth="125.0" text="Amount" />
+                                    <TableColumn fx:id="units" prefWidth="125.0" text="Units" />
+                                 </columns>
+                                 <VBox.margin>
+                                    <Insets top="20.0" />
+                                 </VBox.margin>
+                              </TableView>
+                           </children>
+                        </VBox>
                      </children>
                   </VBox>
                </children>

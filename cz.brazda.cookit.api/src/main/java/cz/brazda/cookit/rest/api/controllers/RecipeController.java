@@ -6,6 +6,8 @@ import cz.brazda.cookit.repository.entity.Recipe;
 import cz.brazda.cookit.repository.entity.exceptions.RecipeNotFound;
 import cz.brazda.cookit.repository.service.RecipeService;
 import cz.brazda.cookit.rest.api.utils.RestPreconditions;
+import org.modelmapper.Converter;
+import org.modelmapper.ModelMapper;
 import org.springframework.http.HttpStatus;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -22,8 +24,13 @@ import java.util.List;
 @RequestMapping(value="/recipe")
 public class RecipeController extends AbstractController<Recipe, RecipeDto> {
 
-    @Autowired
     private RecipeService recipeService;
+
+    @Autowired
+    public RecipeController(ModelMapper modelMapper,  RecipeService recipeService) {
+        super(modelMapper);
+        this.recipeService = recipeService;
+    }
 
     @RequestMapping( method = RequestMethod.GET )
     @ResponseStatus( HttpStatus.OK )

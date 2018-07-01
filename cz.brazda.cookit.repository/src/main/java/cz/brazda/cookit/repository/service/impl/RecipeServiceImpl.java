@@ -31,7 +31,7 @@ public class RecipeServiceImpl extends RepositoryServiceImpl<Recipe, RecipeRepos
         updatedElement.setEdited(originEntity.getEdited());
         updatedElement.setMeal(originEntity.getMeal());
         updatedElement.setName(originEntity.getName());
-        updatedElement.setCategories(originEntity.getCategories());
+        //updatedElement.setCategories(originEntity.getCategories());
         updatedElement.setNumberOfPortion(originEntity.getNumberOfPortion());
         updatedElement.setPrice(originEntity.getPrice());
     }

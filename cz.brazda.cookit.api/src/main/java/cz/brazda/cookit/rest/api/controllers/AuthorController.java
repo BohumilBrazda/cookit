@@ -5,8 +5,8 @@ import cz.brazda.cookit.common.dto.AuthorDto;
 import cz.brazda.cookit.repository.entity.Author;
 import cz.brazda.cookit.repository.entity.exceptions.AuthorNotFound;
 import cz.brazda.cookit.repository.service.AuthorService;
-import cz.brazda.cookit.rest.api.controllers.converter.DtoToAuthorConvertor;
 import cz.brazda.cookit.rest.api.utils.RestPreconditions;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
@@ -25,8 +25,13 @@ import java.util.List;
 @Consumes(MediaType.APPLICATION_JSON)
 public class AuthorController extends AbstractController<Author, AuthorDto> {
 
-    @Autowired
     private AuthorService authorService;
+
+    @Autowired
+    public AuthorController(ModelMapper modelMapper, AuthorService authorService) {
+        super(modelMapper);
+        this.authorService = authorService;
+    }
 
     @RequestMapping( method = RequestMethod.GET )
     @Produces(MediaType.APPLICATION_JSON)
@@ -70,7 +75,7 @@ public class AuthorController extends AbstractController<Author, AuthorDto> {
     @Consumes(MediaType.APPLICATION_JSON)
     @RequestMapping(value = "/{id}", method = RequestMethod.PUT)
     public void update(@PathVariable("id") Long id, @RequestBody AuthorDto authorDto) {
-        Author author = convertToEntity(new DtoToAuthorConvertor(), authorDto, Author.class);
+        Author author = convertToEntity(authorDto, Author.class);
         try {
             authorService.update(author);
         } catch (AuthorNotFound authorNotFound) {

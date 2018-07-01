@@ -2,12 +2,17 @@ package client.repository.service.remote.rest;
 
 import client.repository.model.Author;
 import client.repository.service.remote.exceptions.RepositoryServiceRemoteException;
+import client.repository.service.remote.rest.converters.DtoToAuthorConverter;
 import cz.brazda.cookit.common.dto.AuthorDto;
+import org.modelmapper.Converter;
 import org.modelmapper.ModelMapper;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Configurable;
 import org.springframework.stereotype.Component;
 
 import javax.ws.rs.client.Client;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -15,12 +20,14 @@ import java.util.List;
  * Created by Bohumil Brázda on 22.5.2017.
  */
 @Component
+@Configurable(preConstruction = true)
 public class AuthorRestService extends AbstractBaseRestService<Author, AuthorDto> {
 
     private static final String WS_URI = "http://localhost:8080/cookit/author";
 
-    public AuthorRestService(ModelMapper modelMapper, Client client) {
-        super(modelMapper, client);
+    @Autowired
+    public AuthorRestService(List<Converter> converters, ModelMapper modelMapper, Client client) {
+        super(converters, modelMapper, client);
     }
 
     /**
@@ -30,6 +37,8 @@ public class AuthorRestService extends AbstractBaseRestService<Author, AuthorDto
     @Override
     public List<Author> findAll() {
         try {
+//            List<Converter> converters = new ArrayList<>();
+//            converters.add(new DtoToAuthorConverter());
             return findAllEntities(AuthorDto.class, Author.class);
         } catch (IOException e) {
             throw new RepositoryServiceRemoteException("Cannot find all authors", e);
