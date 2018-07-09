@@ -1,5 +1,6 @@
 package cz.brazda.cookit.repository.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import cz.brazda.cookit.common.IdElement;
 import cz.brazda.cookit.common.Unit;
 
@@ -21,7 +22,7 @@ public class RecipeItem implements IdElement,Serializable {
     private Long id;
 
     @ManyToOne
-    @JoinColumn(name = "recipe_id")
+    @JsonBackReference
     private Recipe recipe;
 
     @Column(name = "name")
@@ -46,9 +47,8 @@ public class RecipeItem implements IdElement,Serializable {
     public RecipeItem() {
     }
 
-    public RecipeItem(Long id, Recipe recipe, String name, String description, Double amount, Ingredient ingredient, Unit unit) {
+    public RecipeItem(Long id, String name, String description, Double amount, Ingredient ingredient, Unit unit) {
         this.id = id;
-        this.recipe = recipe;
         this.name = name;
         this.description = description;
         this.amount = amount;

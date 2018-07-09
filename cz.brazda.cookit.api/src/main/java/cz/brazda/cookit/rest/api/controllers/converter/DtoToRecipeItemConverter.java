@@ -17,6 +17,6 @@ public class DtoToRecipeItemConverter extends AbstractConverter<RecipeItemDto, R
 
     @Override
     protected RecipeItem convert(RecipeItemDto source) {
-        return source == null ? null : new RecipeItem(source.getId(), dtoToRecipeConverter.convert(source.getRecipeDto()), source.getName(), "",source.getAmount(), dtoToIngredientConverter.convert(source.getIngredient()), source.getUnit());
+        return source == null ? null : new RecipeItem(source.getId(), source.getName(), "",source.getAmount(), dtoToIngredientConverter.convert(source.getIngredient()), source.getUnit());
     }
 }

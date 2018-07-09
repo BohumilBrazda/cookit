@@ -11,13 +11,13 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
-import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.AnchorPane;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.util.ResourceBundle;
 
 /**
@@ -36,9 +36,6 @@ public class RecipesController implements Initializable {
 
     @Autowired
     IngredientRestService ingredientRestService;
-
-    @Autowired
-    RecipeItemRestService recipeItemRestService;
 
     @Autowired
     MealRestService mealRestService;
@@ -79,6 +76,10 @@ public class RecipesController implements Initializable {
     @FXML
     private Button btnSearch;
 
+
+    @FXML
+    private Button btnSend;
+
     @FXML
     private Button btnUpdate;
 
@@ -111,7 +112,7 @@ public class RecipesController implements Initializable {
     private TableView<RecipeItem> recipeItemsTable;
 
     @FXML
-    private TableColumn<Recipe, Long> id;
+    private TableColumn<Recipe, Number> id;
 
     @FXML
     private TableColumn<Recipe, String> name;
@@ -132,7 +133,7 @@ public class RecipesController implements Initializable {
     private TableColumn<Recipe, String> edited;
 
     @FXML
-    private TableColumn<RecipeItem, Long> recipeItemId;
+    private TableColumn<RecipeItem, Number> recipeItemId;
 
     @FXML
     private TableColumn<RecipeItem, String> recipeItemName;
@@ -141,13 +142,13 @@ public class RecipesController implements Initializable {
     private TableColumn<RecipeItem, String> description;
 
     @FXML
-    private TableColumn<RecipeItem, String> ingrediets;
+    private TableColumn<RecipeItem, Ingredient> recipeItemIngredient;
 
     @FXML
-    private TableColumn<RecipeItem, Long> amount;
+    private TableColumn<RecipeItem, Number> recipeItemAmount;
 
     @FXML
-    private TableColumn<RecipeItem, String> units;
+    private TableColumn<RecipeItem, Unit> recipeItemUnits;
 
     @FXML
     private Label lblServerStatus;
@@ -164,21 +165,13 @@ public class RecipesController implements Initializable {
     @FXML
     void newAction(ActionEvent event) {
         Recipe recipe = new Recipe(txtName.getText());
-        Author author = cmbAuthor.getSelectionModel().getSelectedItem();
+
         Meal meal = cmbMeal.getSelectionModel().getSelectedItem();
 
-        UserEvent creationEvent = new UserEvent();
-        creationEvent.setAuthor(author);
-        creationEvent.setEventTime(new Date());
-        UserEvent savedEvent = userEventRestService.create(creationEvent);
-
-
-        recipe.setCreated(savedEvent);
-        recipe.setEdited(savedEvent);
         recipe.setMeal(meal);
         recipe.setItems(new ArrayList<>());
-        Recipe createdRecipe = recipeRestService.create(recipe);
-        recipeTableData.add(createdRecipe);
+        //Recipe createdRecipe = recipeRestService.create(recipe);
+        recipeTableData.add(recipe);
         recipesTable.refresh();
     }
 
@@ -222,18 +215,27 @@ public class RecipesController implements Initializable {
         if(selectendRecipe != null){
             recipeItemTableData = FXCollections.observableArrayList(selectendRecipe.getItems());
         }
+
     }
 
     private void bindRecipeTableColumns() {
-        id.setCellValueFactory(
-                new PropertyValueFactory<>("id")
-        );
-        name.setCellValueFactory(
-                new PropertyValueFactory<>("name")
-        );
-        description.setCellValueFactory(
-                new PropertyValueFactory<>("description")
-        );
+
+        id.setCellValueFactory(cellData-> cellData.getValue().idProperty());
+
+        name.setCellValueFactory(cellData->cellData.getValue().nameProperty());
+
+
+        description.setCellValueFactory(cellData->cellData.getValue().descriptionProperty());
+
+        recipeItemId.setCellValueFactory(cellData->cellData.getValue().idProperty());
+
+        recipeItemName.setCellValueFactory(cellData->cellData.getValue().nameProperty());
+
+        recipeItemIngredient.setCellValueFactory(cellData->cellData.getValue().ingredientProperty());
+
+        recipeItemAmount.setCellValueFactory(cellData->cellData.getValue().amountProperty());
+
+        recipeItemUnits.setCellValueFactory(cellData->cellData.getValue().unitProperty());
     }
 
     private void createDetailFieldsBinding() {
@@ -245,6 +247,8 @@ public class RecipesController implements Initializable {
                 }
                 selectendRecipe = c.getList().get(0);
                 txtName.textProperty().bindBidirectional(selectendRecipe.nameProperty());
+                recipeItemTableData = FXCollections.observableArrayList(selectendRecipe.getItems());
+                recipeItemsTable.refresh();
             }
         });
 
@@ -262,17 +266,29 @@ public class RecipesController implements Initializable {
 
     @FXML
     void addItem(ActionEvent event) {
-        RecipeItem item = new RecipeItem();
-        item.setRecipe(selectendRecipe);
-        item.setName(txtRecipeItemName.getText());
-        item.setDescription(txtRecipeItemDescription.getText());
-        item.setAmount(Double.valueOf(txtAmount.getText()));
-        item.setUnit((Unit)cmbUnits.getSelectionModel().getSelectedItem());
-        item.setIngredient(cmbIngredient.getSelectionModel().getSelectedItem());
+        if(selectendRecipe != null){
 
-        RecipeItem createdRecipeItem = recipeItemRestService.create(item);
-        recipeItemTableData.add(createdRecipeItem);
-        recipeItemsTable.refresh();
+            RecipeItem item = new RecipeItem();
+            item.setRecipe(selectendRecipe);
+            item.setName(txtRecipeItemName.getText());
+            item.setDescription(txtRecipeItemDescription.getText());
+            item.setAmount(Double.valueOf(txtAmount.getText()));
+            item.setUnit((Unit)cmbUnits.getSelectionModel().getSelectedItem());
+            item.setIngredient(cmbIngredient.getSelectionModel().getSelectedItem());
+            List<RecipeItem> items = selectendRecipe.getItems();
+            if(items == null){
+                items = FXCollections.observableArrayList();
+            }
+            items.add(item);
+            //recipeRestService.update(selectendRecipe);
+
+            //RecipeItem createdRecipeItem = recipeItemRestService.create(item);
+            if(recipeItemTableData == null){
+                recipeItemTableData = FXCollections.observableArrayList();
+            }
+            recipeItemTableData.setAll(items);
+            recipeItemsTable.refresh();
+        }
     }
 
     @FXML
@@ -283,6 +299,26 @@ public class RecipesController implements Initializable {
     @FXML
     void removeItem(ActionEvent event) {
 
+    }
+
+    @FXML
+    void sendAction(ActionEvent event) {
+        UserEvent creationEvent = new UserEvent();
+        Author author = cmbAuthor.getSelectionModel().getSelectedItem();
+        creationEvent.setAuthor(author);
+        creationEvent.setEventTime(new Date());
+        UserEvent savedEvent = userEventRestService.create(creationEvent);
+
+
+        selectendRecipe.setEdited(savedEvent);
+
+
+        if(selectendRecipe.getId() != 0){
+            recipeRestService.update(selectendRecipe);
+        }else{
+            selectendRecipe.setCreated(savedEvent);
+            recipeRestService.create(selectendRecipe);
+        }
     }
 
 }

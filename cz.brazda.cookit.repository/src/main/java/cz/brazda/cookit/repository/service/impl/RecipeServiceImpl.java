@@ -3,10 +3,15 @@ package cz.brazda.cookit.repository.service.impl;
 
 import cz.brazda.cookit.repository.RecipeRepository;
 import cz.brazda.cookit.repository.entity.Recipe;
+import cz.brazda.cookit.repository.entity.RecipeItem;
 import cz.brazda.cookit.repository.entity.exceptions.RecipeNotFound;
+import cz.brazda.cookit.repository.service.RecipeItemService;
 import cz.brazda.cookit.repository.service.RecipeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.ArrayList;
+import java.util.List;
 
 
 /**
@@ -14,6 +19,25 @@ import org.springframework.stereotype.Service;
  */
 @Service
 public class RecipeServiceImpl extends RepositoryServiceImpl<Recipe, RecipeRepository, RecipeNotFound> implements RecipeService {
+
+    @Autowired
+    RecipeItemService recipeItemService;
+
+    @Override
+    public Recipe create(Recipe entity) {
+        List<RecipeItem> items = new ArrayList<>(entity.getItems());
+        entity.getItems().clear();
+        Recipe recipe = repository.save(entity);
+
+        for (RecipeItem item:items) {
+            item.setRecipe(recipe);
+            RecipeItem savedItem = recipeItemService.create(item);
+            recipe.getItems().add(savedItem);
+        }
+
+        repository.saveAndFlush(recipe);
+        return recipe;
+    }
 
     @Autowired
     public RecipeServiceImpl(RecipeRepository recipeRepository){
@@ -34,5 +58,6 @@ public class RecipeServiceImpl extends RepositoryServiceImpl<Recipe, RecipeRepos
         //updatedElement.setCategories(originEntity.getCategories());
         updatedElement.setNumberOfPortion(originEntity.getNumberOfPortion());
         updatedElement.setPrice(originEntity.getPrice());
+        repository.save(updatedElement);
     }
 }

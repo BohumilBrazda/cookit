@@ -16,8 +16,8 @@ dependencies {
     compile group: 'javax.ws.rs', name: 'javax.ws.rs-api', version: '2.1-m07'
     compile group: 'com.google.guava', name: 'guava', version: '21.0'
 
-    compile group: 'org.modelmapper', name: 'modelmapper', version: '2.0.0'
-    compile group: 'org.modelmapper.extensions', name: 'modelmapper-jackson', version: '2.0.0'
+    compile group: 'org.modelmapper', name: 'modelmapper', version: '2.1.0'
+    compile group: 'org.modelmapper.extensions', name: 'modelmapper-jackson', version: '2.1.0'
 
     testCompile group: 'junit', name: 'junit', version: '4.12'
 }

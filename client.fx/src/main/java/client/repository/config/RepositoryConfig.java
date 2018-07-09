@@ -2,6 +2,7 @@ package client.repository.config;
 
 import client.repository.service.remote.rest.*;
 import client.repository.service.remote.rest.converters.*;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.glassfish.jersey.jsonp.JsonProcessingFeature;
 import org.modelmapper.Converter;
 import org.modelmapper.ModelMapper;
@@ -35,6 +36,11 @@ public class RepositoryConfig {
     }
 
     @Bean
+    public ObjectMapper objectMapper(){
+        return new ObjectMapper();
+    }
+
+    @Bean
     public List<Converter> converters(){
         List<Converter> convertes = new ArrayList<>();
         convertes.add(new DtoToMealConverter());
@@ -47,6 +53,7 @@ public class RepositoryConfig {
         convertes.add(new AuthorToDtoConverter());
         convertes.add(new MealToDtoConverter());
         convertes.add(new IngredientToDtoConverter());
+        convertes.add(new RecipeNodeToDtoConverter());
         return convertes;
     }
     @Bean

@@ -6,7 +6,6 @@ import client.repository.model.RecipeItem;
 import client.repository.model.UserEvent;
 import cz.brazda.cookit.common.dto.RecipeDto;
 import cz.brazda.cookit.common.dto.RecipeItemDto;
-import cz.brazda.cookit.common.dto.UserEventDto;
 import org.modelmapper.AbstractConverter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -35,18 +34,21 @@ public class DtoToRecipeConverter extends AbstractConverter<RecipeDto, Recipe> {
             UserEvent edited = dtoToUserEventConverter.convert(source.getEdited());
             Meal meal = dtoToMealConverter.convert(source.getMeal());
 
-            Recipe recipe = new Recipe(source.getId(),source.getName(), source.getNumberOfPortion(), source.getPrice(), getItems(source.getItems()), null, created, edited, meal);
-
+            Recipe recipe = new Recipe(source.getId(),source.getName(), source.getNumberOfPortion(), source.getPrice(), null, created, edited, meal);
+            addItemstoRecipe(source.getItems(), recipe);
             return recipe;
         }
     }
 
-    private List<RecipeItem> getItems(List<RecipeItemDto> sourceItems) {
-        if(sourceItems != null && !sourceItems.isEmpty()){
+    private void addItemstoRecipe(List<RecipeItemDto> sourceItems, Recipe sourceRecipe) {
+        if(sourceItems != null){
             List<RecipeItem> items = new ArrayList<>();
-            sourceItems.forEach(item -> items.add(dtoToRecipeItemConverter.convert(item)));
-            return items;
+            for (RecipeItemDto itemDto: sourceItems) {
+                RecipeItem convertedItem = dtoToRecipeItemConverter.convert(itemDto);
+                convertedItem.setRecipe(sourceRecipe);
+                items.add(convertedItem);
+            }
+            sourceRecipe.getItems().addAll(items);
         }
-        return null;
     }
 }

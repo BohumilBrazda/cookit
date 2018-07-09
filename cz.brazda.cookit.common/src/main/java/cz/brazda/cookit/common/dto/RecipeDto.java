@@ -22,7 +22,7 @@ public class RecipeDto implements EntityDto {
     public RecipeDto() {
     }
 
-    public RecipeDto(Long id, String name, Integer numberOfPortion, Float price, List<RecipeItemDto> items, UserEventDto created, UserEventDto edited, MealDto meal) {
+    public RecipeDto(Long id, String name, Integer numberOfPortion, Float price, UserEventDto created, UserEventDto edited, MealDto meal) {
         this.id = id;
         this.name = name;
         this.numberOfPortion = numberOfPortion;
@@ -30,7 +30,6 @@ public class RecipeDto implements EntityDto {
         this.created = created;
         this.edited = edited;
         this.meal = meal;
-        this.items = items;
     }
 
     @Override

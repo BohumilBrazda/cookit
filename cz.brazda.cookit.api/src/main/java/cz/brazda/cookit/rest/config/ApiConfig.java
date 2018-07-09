@@ -26,8 +26,8 @@ public class ApiConfig {
     public ModelMapper modelMapper() {
         ModelMapper modelMapper = new ModelMapper();
         modelMapper.getConfiguration().addValueReader(new JsonNodeValueReader());
-        modelMapper.getConfiguration().setMatchingStrategy(MatchingStrategies.STANDARD);
-        modelMapper.getConfiguration().setSourceNamingConvention(NamingConventions.JAVABEANS_ACCESSOR);
+        modelMapper.getConfiguration().setMatchingStrategy(MatchingStrategies.STANDARD).setFieldMatchingEnabled(true).setFieldAccessLevel(org.modelmapper.config.Configuration.AccessLevel.PRIVATE);
+        modelMapper.getConfiguration().setSourceNamingConvention(NamingConventions.JAVABEANS_MUTATOR);
 
         List<Converter> converters = new ArrayList<>(asList());
         converters.add(dtoToAuthorConverter());

@@ -89,4 +89,11 @@ public class Meal implements Entity {
     public Long getId() {
         return id.get();
     }
+
+    @Override
+    public String toString() {
+        return "Meal{" +
+                "name=" + name +
+                '}';
+    }
 }

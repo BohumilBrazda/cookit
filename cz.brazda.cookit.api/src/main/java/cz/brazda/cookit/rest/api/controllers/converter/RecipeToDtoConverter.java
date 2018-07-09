@@ -26,16 +26,23 @@ public class RecipeToDtoConverter extends AbstractConverter<Recipe, RecipeDto> {
 
     @Override
     protected RecipeDto convert(Recipe source) {
-        return source == null ? null : new RecipeDto(source.getId(), source.getName(), source.getNumberOfPortion(), source.getPrice(), getRecipeItemDtos(source), userEventToDtoConverter.convert(source.getCreated()), userEventToDtoConverter.convert(source.getEdited()), mealToDtoConverter.convert(source.getMeal()));
+        if(source != null){
+            RecipeDto recipeDto = new RecipeDto(source.getId(), source.getName(), source.getNumberOfPortion(), source.getPrice(), userEventToDtoConverter.convert(source.getCreated()), userEventToDtoConverter.convert(source.getEdited()), mealToDtoConverter.convert(source.getMeal()));
+            addRecipeItemsToRecipe(source.getItems(), recipeDto);
+            return recipeDto;
+        }
+        return new RecipeDto();
     }
 
-    private List<RecipeItemDto> getRecipeItemDtos(Recipe source) {
-        if(source.getItems() != null && !source.getItems().isEmpty()){
-            List<RecipeItemDto> items = new ArrayList<>();
-            source.getItems().forEach(item->items.add(recipeItemToDtoConverter.convert(item)));
+    private void addRecipeItemsToRecipe(List<RecipeItem> sourceItems, RecipeDto recipeDto) {
+        if(sourceItems != null){
+            List<RecipeItemDto> itemDtos = new ArrayList<>();
+            for(RecipeItem item: sourceItems){
+                RecipeItemDto recipeItemDto = recipeItemToDtoConverter.convert(item);
+                itemDtos.add(recipeItemDto);
+            }
+            recipeDto.setItems(itemDtos);
         }
-
-        return null;
 
     }
 }

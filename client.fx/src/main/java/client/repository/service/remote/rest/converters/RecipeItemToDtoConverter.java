@@ -14,14 +14,10 @@ public class RecipeItemToDtoConverter extends AbstractConverter<RecipeItem, Reci
     MealToDtoConverter mealToDtoConverter;
 
     @Autowired
-    RecipeToDtoConverter recipeToDtoConverter;
-
-    @Autowired
     IngredientToDtoConverter ingredientToDtoConverter;
 
     @Override
     protected RecipeItemDto convert(RecipeItem source) {
-        RecipeDto recipe =  recipeToDtoConverter.convert(source.getRecipe());
-        return source == null ? null : new RecipeItemDto(source.getId(), recipe, source.getName(), source.getDescription(), source.getAmount(),ingredientToDtoConverter.convert(source.getIngredient()), source.getUnit());
+       return source == null ? null : new RecipeItemDto(source.getId(), source.getName(), source.getDescription(), source.getAmount(),ingredientToDtoConverter.convert(source.getIngredient()), source.getUnit());
     }
 }

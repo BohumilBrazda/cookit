@@ -1,6 +1,7 @@
 package client.repository.service.remote.rest.converters;
 
 import client.repository.model.Recipe;
+import client.repository.model.RecipeItem;
 import cz.brazda.cookit.common.dto.MealDto;
 import cz.brazda.cookit.common.dto.RecipeDto;
 import cz.brazda.cookit.common.dto.RecipeItemDto;
@@ -25,19 +26,21 @@ public class RecipeToDtoConverter extends AbstractConverter<Recipe, RecipeDto> {
     @Override
     protected RecipeDto convert(Recipe source) {
         if(source != null){
-            List<RecipeItemDto> itemDtos = getRecipeItemDtos(source);
-
-            return source == null ? null : new RecipeDto(source.getId(), source.getName(), source.getNumberOfPortion(), source.getPrice(), itemDtos, userEventToDtoConverter.convert(source.getCreated()), userEventToDtoConverter.convert(source.getCreated()), mealToDtoConverter.convert(source.getMeal()));
-
+            RecipeDto recipeDto = new RecipeDto(source.getId(), source.getName(), source.getNumberOfPortion(), source.getPrice(), userEventToDtoConverter.convert(source.getCreated()), userEventToDtoConverter.convert(source.getCreated()), mealToDtoConverter.convert(source.getMeal()));
+            addItemsToRecipe(source.getItems(), recipeDto);
+            return recipeDto;
         }
-        return null;
+        return new RecipeDto();
     }
 
-    private List<RecipeItemDto> getRecipeItemDtos(Recipe source) {
-        if(source.getItems() != null && !source.getItems().isEmpty()){
+    private void addItemsToRecipe(List<RecipeItem> sourceItems, RecipeDto recipeDto) {
+        if(sourceItems != null ){
             List<RecipeItemDto> itemDtos = new ArrayList<>();
-            source.getItems().forEach(item -> itemDtos.add(recipeItemToDtoConverter.convert(item)));
+            for(RecipeItem recipeItem:sourceItems){
+                RecipeItemDto recipeItemDto = recipeItemToDtoConverter.convert(recipeItem);
+                itemDtos.add(recipeItemDto);
+            }
+            recipeDto.setItems(itemDtos);
         }
-        return null;
     }
 }

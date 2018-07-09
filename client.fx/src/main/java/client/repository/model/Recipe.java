@@ -3,6 +3,7 @@ package client.repository.model;
 
 import javafx.beans.property.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -17,27 +18,26 @@ public class Recipe implements Entity {
     private StringProperty name = new SimpleStringProperty();
     private IntegerProperty numberOfPortion = new SimpleIntegerProperty();
     private FloatProperty price = new SimpleFloatProperty();
-    private List<RecipeItem> items;
+    private List<RecipeItem> items = new ArrayList<>();
 
     private List<Category> categories;
-    private UserEvent created;
+    private ObjectProperty<UserEvent> created = new SimpleObjectProperty<>();
 
-    private UserEvent edited;
-    private Meal meal;
+    private ObjectProperty<UserEvent> edited = new SimpleObjectProperty<>();
+    private ObjectProperty<Meal> meal = new SimpleObjectProperty<>();
 
     public Recipe() {
     }
 
-    public Recipe(Long id, String name, Integer numberOfPortion, Float price, List<RecipeItem> items, List<Category> categories, UserEvent created, UserEvent edited, Meal meal) {
-        this.id.setValue(id);
-        this.name.setValue(name);
-        this.numberOfPortion.setValue(numberOfPortion);
-        this.price.setValue(price);
-        this.items = items;
+    public Recipe(Long id, String name, Integer numberOfPortion, Float price, List<Category> categories, UserEvent created, UserEvent edited, Meal meal) {
+        this.id.set(id);
+        this.name.set(name);
+        this.numberOfPortion.set(numberOfPortion);
+        this.price.set(price);
         this.categories = categories;
-        this.created = created;
-        this.edited = edited;
-        this.meal = meal;
+        this.created.set(created);
+        this.edited.set(edited);
+        this.meal.set(meal);
     }
 
     public Recipe(Long id, String name) {
@@ -78,11 +78,11 @@ public class Recipe implements Entity {
     }
 
     public Meal getMeal() {
-        return meal;
+        return meal.get();
     }
 
     public void setMeal(Meal meal) {
-        this.meal = meal;
+        this.meal.set(meal);
     }
 
     public Long getId() {
@@ -132,19 +132,30 @@ public class Recipe implements Entity {
     }
 
     public UserEvent getCreated() {
-        return created;
+        return created.get();
     }
 
     public UserEvent getEdited() {
-        return edited;
+        return edited.get();
     }
 
     public void setCreated(UserEvent created) {
-        this.created = created;
+        this.created.set(created);
     }
 
     public void setEdited(UserEvent edited) {
-        this.edited = edited;
+        this.edited.set(edited);
     }
 
+    public ObjectProperty<UserEvent> createdProperty() {
+        return created;
+    }
+
+    public ObjectProperty<UserEvent> editedProperty() {
+        return edited;
+    }
+
+    public ObjectProperty<Meal> mealProperty() {
+        return meal;
+    }
 }

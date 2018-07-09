@@ -17,7 +17,7 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.VBox?>
 
-<AnchorPane fx:id="mealView" prefHeight="800.0" prefWidth="1200.0" stylesheets="@css/style.css" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.fx.controllers.RecipesController">
+<AnchorPane fx:id="mealView" prefHeight="800.0" prefWidth="1200.0" stylesheets="@css/style.css" xmlns="http://javafx.com/javafx/8.0.121" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.fx.controllers.RecipesController">
    <children>
       <BorderPane styleClass="body" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <center>
@@ -119,6 +119,12 @@
                                                    </styleClass>
                                                 </Button>
                                                 <Button fx:id="btnNew" alignment="CENTER_RIGHT" mnemonicParsing="false" onAction="#newAction" text="New...">
+                                                   <styleClass>
+                                                      <String fx:value="btn" />
+                                                      <String fx:value="btn-new" />
+                                                   </styleClass>
+                                                </Button>
+                                                <Button fx:id="btnSend" alignment="CENTER_RIGHT" mnemonicParsing="false" onAction="#sendAction" text="Send...">
                                                    <styleClass>
                                                       <String fx:value="btn" />
                                                       <String fx:value="btn-new" />
@@ -279,9 +285,9 @@
                                     <TableColumn fx:id="recipeItemId" prefWidth="35.0" text="ID" />
                                     <TableColumn fx:id="recipeItemName" prefWidth="125.0" text="Name" />
                                     <TableColumn fx:id="description" prefWidth="125.0" text="Description" />
-                                    <TableColumn fx:id="ingrediets" prefWidth="125.0" text="Ingredient" />
-                                    <TableColumn fx:id="amount" prefWidth="125.0" text="Amount" />
-                                    <TableColumn fx:id="units" prefWidth="125.0" text="Units" />
+                                    <TableColumn fx:id="recipeItemIngredient" prefWidth="125.0" text="Ingredient" />
+                                    <TableColumn fx:id="recipeItemAmount" prefWidth="125.0" text="Amount" />
+                                    <TableColumn fx:id="recipeItemUnits" prefWidth="125.0" text="Units" />
                                  </columns>
                                  <VBox.margin>
                                     <Insets top="20.0" />

@@ -1,6 +1,8 @@
 package cz.brazda.cookit.repository.entity;
 
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import cz.brazda.cookit.common.IdElement;
 
 import javax.persistence.*;
@@ -30,6 +32,7 @@ public class Recipe implements IdElement, Serializable {
     private Float price;
 
     @OneToMany(mappedBy="recipe", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonManagedReference
     private List<RecipeItem> items;
 
 //    @OneToMany
@@ -57,13 +60,11 @@ public class Recipe implements IdElement, Serializable {
     public Recipe() {
     }
 
-    public Recipe(Long id, String name, Integer numberOfPortion, Float price, List<RecipeItem> items, UserEvent created, UserEvent edited, Meal meal) {
+    public Recipe(Long id, String name, Integer numberOfPortion, Float price, UserEvent created, UserEvent edited, Meal meal) {
         this.id = id;
         this.name = name;
         this.numberOfPortion = numberOfPortion;
         this.price = price;
-        this.items = items;
-        //this.categories = categories;
         this.created = created;
         this.edited = edited;
         this.meal = meal;

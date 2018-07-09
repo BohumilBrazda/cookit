@@ -1,9 +1,12 @@
 package client.repository.service.remote.rest;
 
 import client.repository.model.Entity;
+import client.repository.service.remote.rest.converters.RecipeNodeToDtoConverter;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.node.ArrayNode;
+import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.fasterxml.jackson.databind.node.ValueNode;
 import com.sun.istack.internal.NotNull;
 import cz.brazda.cookit.common.dto.EntityDto;
@@ -36,6 +39,8 @@ public abstract class AbstractBaseRestService<U extends Entity, V extends Entity
     private List<Converter> converters;
     private ModelMapper modelMapper;
     private Client client;
+
+    @Autowired
     private ObjectMapper objectMapper;
 
 
@@ -48,15 +53,13 @@ public abstract class AbstractBaseRestService<U extends Entity, V extends Entity
         this.converters = converters;
         this.modelMapper = modelMapper;
         this.client = client;
-        this.objectMapper = new ObjectMapper();
+//      this.objectMapper = new ObjectMapper();
 
         converters.forEach((v)->modelMapper.addConverter(v));
-        PropertyMap<JsonNode, RecipeDto> orderMap = new PropertyMap<JsonNode, RecipeDto>() {
-            protected void configure() {
-                map().setItems(this.<List<RecipeItemDto>>source("items"));
-            }
-        };
-        modelMapper.addMappings(orderMap);
+        if (modelMapper.getTypeMap(ObjectNode.class,RecipeDto.class) == null){
+            modelMapper.createTypeMap(ObjectNode.class, RecipeDto.class).setConverter(new RecipeNodeToDtoConverter());
+
+        }
         webTarget = client.target(UriBuilder.fromUri(getURIString()).build());
     }
 
@@ -112,27 +115,22 @@ public abstract class AbstractBaseRestService<U extends Entity, V extends Entity
         return dtos;
     }
 
-    private U convertDtoToEntity(@NotNull JsonValue jsonValue, Class<V> dtoClass, Class<U> entityClass) throws IOException {
+    private List<U> convertToEntities(@NotNull JsonStructure jsonStructure, Class<V> dtoClass, Class<U> entityClass) throws IOException {
+        List<U> entities = new ArrayList<>();
+        for (JsonValue jsonValue : jsonStructure.asJsonArray()) {
+            entities.add(convertDtoToEntity(jsonValue, dtoClass, entityClass));
+        }
+        return entities;
+    }
 
+    private U convertDtoToEntity(@NotNull JsonValue jsonValue, Class<V> dtoClass, Class<U> entityClass) throws IOException {
         objectMapper.enable(DeserializationFeature.ACCEPT_EMPTY_ARRAY_AS_NULL_OBJECT);
         JsonNode jsonNode = objectMapper.readTree(jsonValue.toString());
         return convertDtoToEntity(jsonNode, dtoClass, entityClass);
     }
 
     private U convertDtoToEntity(JsonNode jsonNode, Class<V> dtoClass, Class<U> entityClass) {
-            if(map != null){
-                modelMapper.createTypeMap(jsonNode, dtoClass).setPropertyCondition(Conditions.isNotNull()).addMappings(map);
-            }
-            JsonNode items = jsonNode.get("items");
-            V dto = modelMapper.map(jsonNode, dtoClass);
+        V dto = modelMapper.map(jsonNode, dtoClass);
             return modelMapper.map(dto, entityClass);
         }
-
-        private List<U> convertToEntities(@NotNull JsonStructure jsonStructure, Class<V> dtoClass, Class<U> entityClass) throws IOException {
-            List<U> entities = new ArrayList<>();
-            for (JsonValue jsonValue : jsonStructure.asJsonArray()) {
-                entities.add(convertDtoToEntity(jsonValue, dtoClass, entityClass));
-            }
-        return entities;
-    }
 }
