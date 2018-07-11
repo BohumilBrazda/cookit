@@ -7,14 +7,11 @@ import org.glassfish.jersey.jsonp.JsonProcessingFeature;
 import org.modelmapper.Converter;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.convention.MatchingStrategies;
-import org.modelmapper.convention.NameTokenizers;
-import org.modelmapper.convention.NamingConventions;
 import org.modelmapper.jackson.JsonNodeValueReader;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 
-import javax.json.stream.JsonGenerator;
 import javax.ws.rs.client.Client;
 import javax.ws.rs.client.ClientBuilder;
 import java.util.ArrayList;
@@ -54,6 +51,7 @@ public class RepositoryConfig {
         convertes.add(new MealToDtoConverter());
         convertes.add(new IngredientToDtoConverter());
         convertes.add(new RecipeNodeToDtoConverter());
+        convertes.add(new UserEventToDtoConverter());
         return convertes;
     }
     @Bean

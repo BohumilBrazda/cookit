@@ -26,6 +26,11 @@ public class Category implements Entity {
         this.pictures = pictures;
     }
 
+    @Override
+    public String getName(){
+        return getCategoryName();
+    }
+
     public Long getId() {
         return id;
     }

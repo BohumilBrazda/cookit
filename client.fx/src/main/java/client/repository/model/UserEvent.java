@@ -7,6 +7,11 @@ import java.util.Date;
  * Created by BOBES on 8.2.2015.
  */
 public class UserEvent extends Event {
+    @Override
+    public String toString() {
+        return author + ", " + eventTime;
+    }
+
     private Long id;
 
     private Author author;
@@ -49,4 +54,5 @@ public class UserEvent extends Event {
     public void setEventTime(Date eventTime){
         this.eventTime = eventTime;
     }
+
 }

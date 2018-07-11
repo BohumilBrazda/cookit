@@ -42,6 +42,11 @@ public class Author implements Entity {
         return id;
     }
 
+    @Override
+    public String getName(){
+        return getFullName();
+    }
+
     public void setFirstName(String firstName) {
         this.firstName.setValue(firstName);
     }
@@ -72,10 +77,9 @@ public class Author implements Entity {
 
     @Override
     public String toString() {
-        return "Author{" +
-                "id=" + id.get() +
-                ", firstName='" + firstName.get() + '\'' +
-                ", secondName='" + secondName.get() + '\'' +
-                '}';
+        return
+
+                firstName.get()+
+                ", " + secondName.get();
     }
 }

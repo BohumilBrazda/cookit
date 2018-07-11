@@ -10,7 +10,9 @@ import java.util.Objects;
 public class UserEventDto implements EntityDto {
 
     private Long id;
+
     private Date eventTime;
+
     private AuthorDto author;
 
     public void setId(Long id) {

@@ -1,6 +1,10 @@
 package client.repository.model;
 
 import cz.brazda.cookit.common.IdElement;
+import javafx.beans.property.LongProperty;
+import javafx.beans.property.SimpleLongProperty;
+import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.property.StringProperty;
 
 import java.io.Serializable;
 
@@ -9,37 +13,53 @@ import java.io.Serializable;
  */
 public class Ingredient implements Entity {
 
-    private Long id;
-    private String name;
-    private String description;
+    private LongProperty id = new SimpleLongProperty();
+    private StringProperty name = new SimpleStringProperty();
+    private StringProperty description = new SimpleStringProperty();
 
     public Ingredient() {
     }
 
     public Ingredient(Long id, String name, String description) {
-        this.id = id;
-        this.name = name;
-        this.description = description;
+        this.id.set(id);
+        this.name.set(name);
+        this.description.set(description);
     }
 
-    public String getDescription() {
-        return description;
+    public void setId(long id) {
+        this.id.set(id);
     }
 
-    public Long getId() {
+    public LongProperty idProperty() {
         return id;
     }
 
-    public String getName() {
+    public StringProperty nameProperty() {
         return name;
     }
 
+    public StringProperty descriptionProperty() {
+        return description;
+    }
+
+    public String getDescription() {
+        return description.get();
+    }
+
+    public Long getId() {
+        return id.get();
+    }
+
+    public String getName() {
+        return name.get();
+    }
+
     public void setDescription(String description) {
-        this.description = description;
+        this.description.set(description);
     }
 
     public void setName(String name) {
-        this.name = name;
+        this.name.set(name);
     }
 
     @Override
