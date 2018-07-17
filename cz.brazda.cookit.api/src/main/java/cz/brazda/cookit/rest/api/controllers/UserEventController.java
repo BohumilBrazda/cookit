@@ -1,15 +1,11 @@
 package cz.brazda.cookit.rest.api.controllers;
 
 import com.google.common.base.Preconditions;
-import cz.brazda.cookit.common.IdElement;
 import cz.brazda.cookit.common.dto.UserEventDto;
 import cz.brazda.cookit.repository.entity.UserEvent;
 import cz.brazda.cookit.repository.entity.exceptions.UserEventNotFound;
 import cz.brazda.cookit.repository.service.UserEventService;
-import cz.brazda.cookit.rest.api.controllers.converter.DtoToUserEventConverter;
-import cz.brazda.cookit.rest.api.controllers.converter.UserEventToDtoConverter;
 import cz.brazda.cookit.rest.api.utils.RestPreconditions;
-import org.modelmapper.Converter;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;

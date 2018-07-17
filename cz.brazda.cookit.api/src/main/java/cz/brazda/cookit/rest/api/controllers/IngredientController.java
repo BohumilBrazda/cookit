@@ -6,7 +6,6 @@ import cz.brazda.cookit.repository.entity.Ingredient;
 import cz.brazda.cookit.repository.entity.exceptions.IngredientNotFound;
 import cz.brazda.cookit.repository.service.IngredientService;
 import cz.brazda.cookit.rest.api.utils.RestPreconditions;
-import org.modelmapper.Converter;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;

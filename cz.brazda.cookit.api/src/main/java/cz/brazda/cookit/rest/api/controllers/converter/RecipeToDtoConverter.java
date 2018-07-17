@@ -2,7 +2,6 @@ package cz.brazda.cookit.rest.api.controllers.converter;
 
 import cz.brazda.cookit.common.dto.RecipeDto;
 import cz.brazda.cookit.common.dto.RecipeItemDto;
-import cz.brazda.cookit.repository.entity.Category;
 import cz.brazda.cookit.repository.entity.Recipe;
 import cz.brazda.cookit.repository.entity.RecipeItem;
 import org.modelmapper.AbstractConverter;

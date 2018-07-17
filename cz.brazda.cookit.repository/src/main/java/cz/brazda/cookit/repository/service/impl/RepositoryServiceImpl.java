@@ -22,7 +22,7 @@ public abstract class RepositoryServiceImpl<T extends IdElement, U extends JpaRe
      * Create new instance of concrete exception
      * @return new instance of exception
      */
-    protected abstract V exception();
+    protected V exception;
 
     /**
      * Define details attributes from updated entity
@@ -42,7 +42,7 @@ public abstract class RepositoryServiceImpl<T extends IdElement, U extends JpaRe
     public void delete(Long id) throws V {
         T deletedEntity = findById(id);
         if(deletedEntity == null){
-            throw exception();
+            throw exception;
         }
         repository.delete(deletedEntity);
     }
@@ -52,7 +52,7 @@ public abstract class RepositoryServiceImpl<T extends IdElement, U extends JpaRe
     public T update(T entity) throws V {
         T updatedEntity = findById(entity.getId());
         if(updatedEntity == null){
-            throw exception();
+            throw exception;
         }
         updateEntity(updatedEntity, entity);
         return updatedEntity;

@@ -17,13 +17,8 @@ public class AuthorServiceImpl extends RepositoryServiceImpl<Author, AuthorRepos
     @Autowired
     public AuthorServiceImpl(AuthorRepository authorRepository){
         repository = authorRepository;
+        exception = new AuthorNotFound();
     }
-
-    @Override
-    protected AuthorNotFound exception() {
-        return new AuthorNotFound();
-    }
-
 
     @Override
     protected void updateEntity(Author updatedAuthor, Author originAuthor) {

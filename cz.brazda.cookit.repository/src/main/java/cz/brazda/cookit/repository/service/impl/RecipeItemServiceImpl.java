@@ -18,12 +18,7 @@ public class RecipeItemServiceImpl extends RepositoryServiceImpl<RecipeItem, Rec
     @Autowired
     public RecipeItemServiceImpl(RecipeItemRepository recipeItemRepository){
         repository = recipeItemRepository;
-    }
-
-
-    @Override
-    protected RecipeItemNotFound exception() {
-        return new RecipeItemNotFound();
+        exception = new RecipeItemNotFound();
     }
 
     @Override

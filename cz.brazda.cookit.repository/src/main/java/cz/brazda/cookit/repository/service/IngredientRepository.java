@@ -1,7 +1,6 @@
 package cz.brazda.cookit.repository.service;
 
 
-import cz.brazda.cookit.repository.entity.Author;
 import cz.brazda.cookit.repository.entity.Ingredient;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;

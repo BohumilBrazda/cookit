@@ -1,9 +1,7 @@
 package cz.brazda.cookit.repository.service;
 
 
-import cz.brazda.cookit.repository.entity.Author;
 import cz.brazda.cookit.repository.entity.Ingredient;
-import cz.brazda.cookit.repository.entity.exceptions.AuthorNotFound;
 import cz.brazda.cookit.repository.entity.exceptions.IngredientNotFound;
 
 /**

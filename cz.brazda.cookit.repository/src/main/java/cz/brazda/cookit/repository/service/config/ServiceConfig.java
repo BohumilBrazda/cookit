@@ -1,16 +1,5 @@
-package cz.brazda.cookit.repository.config;
+package cz.brazda.cookit.repository.service.config;
 
-import cz.brazda.cookit.repository.AuthorRepository;
-import cz.brazda.cookit.repository.MealRepository;
-import cz.brazda.cookit.repository.RecipeRepository;
-import cz.brazda.cookit.repository.UserEventRepository;
-import cz.brazda.cookit.repository.service.*;
-import cz.brazda.cookit.repository.service.impl.AuthorServiceImpl;
-import cz.brazda.cookit.repository.service.impl.MealServiceImpl;
-import cz.brazda.cookit.repository.service.impl.RecipeServiceImpl;
-import cz.brazda.cookit.repository.service.impl.UserEventServiceImpl;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 

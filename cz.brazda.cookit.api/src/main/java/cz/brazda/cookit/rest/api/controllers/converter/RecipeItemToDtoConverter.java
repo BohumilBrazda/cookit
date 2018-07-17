@@ -1,11 +1,9 @@
 package cz.brazda.cookit.rest.api.controllers.converter;
 
-import cz.brazda.cookit.common.dto.RecipeDto;
 import cz.brazda.cookit.common.dto.RecipeItemDto;
 import cz.brazda.cookit.repository.entity.RecipeItem;
 import org.modelmapper.AbstractConverter;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.convert.ReadingConverter;
 import org.springframework.stereotype.Component;
 
 @Component

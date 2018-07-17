@@ -1,12 +1,8 @@
 package cz.brazda.cookit.repository.service.impl;
 
 
-import cz.brazda.cookit.repository.AuthorRepository;
-import cz.brazda.cookit.repository.entity.Author;
 import cz.brazda.cookit.repository.entity.Ingredient;
-import cz.brazda.cookit.repository.entity.exceptions.AuthorNotFound;
 import cz.brazda.cookit.repository.entity.exceptions.IngredientNotFound;
-import cz.brazda.cookit.repository.service.AuthorService;
 import cz.brazda.cookit.repository.service.IngredientRepository;
 import cz.brazda.cookit.repository.service.IngredientService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,13 +16,13 @@ public class IngredientServiceImpl extends RepositoryServiceImpl<Ingredient, Ing
 
     @Autowired
     public IngredientServiceImpl(IngredientRepository ingredientRepository){
-        repository = ingredientRepository;
+        repository = ingredientRepository;exception = new IngredientNotFound();
     }
 
-    @Override
-    protected IngredientNotFound exception() {
-        return new IngredientNotFound();
-    }
+//    @Override
+//    protected IngredientNotFound exception() {
+//        return new IngredientNotFound();
+//    }
 
 
     @Override

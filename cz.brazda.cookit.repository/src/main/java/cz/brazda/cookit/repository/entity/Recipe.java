@@ -1,7 +1,6 @@
 package cz.brazda.cookit.repository.entity;
 
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import cz.brazda.cookit.common.IdElement;
 

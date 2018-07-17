@@ -23,6 +23,12 @@ public class RecipeServiceImpl extends RepositoryServiceImpl<Recipe, RecipeRepos
     @Autowired
     RecipeItemService recipeItemService;
 
+    @Autowired
+    public RecipeServiceImpl(RecipeRepository recipeRepository){
+        repository = recipeRepository;
+        exception = new RecipeNotFound();
+    }
+
     @Override
     public Recipe create(Recipe entity) {
         List<RecipeItem> items = new ArrayList<>(entity.getItems());
@@ -37,17 +43,6 @@ public class RecipeServiceImpl extends RepositoryServiceImpl<Recipe, RecipeRepos
 
         repository.saveAndFlush(recipe);
         return recipe;
-    }
-
-    @Autowired
-    public RecipeServiceImpl(RecipeRepository recipeRepository){
-        repository = recipeRepository;
-    }
-
-
-    @Override
-    protected RecipeNotFound exception() {
-        return new RecipeNotFound();
     }
 
     @Override

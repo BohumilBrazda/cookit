@@ -19,11 +19,7 @@ public class MealServiceImpl extends RepositoryServiceImpl<Meal, MealRepository,
     @Autowired
     public MealServiceImpl(MealRepository mealRepository){
         repository = mealRepository;
-    }
-
-    @Override
-    protected MealNotFound exception() {
-        return new MealNotFound();
+        exception = new MealNotFound();
     }
 
     @Override

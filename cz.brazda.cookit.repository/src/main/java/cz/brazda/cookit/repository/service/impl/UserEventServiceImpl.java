@@ -17,10 +17,7 @@ public class UserEventServiceImpl extends RepositoryServiceImpl<UserEvent, UserE
     @Autowired
     public UserEventServiceImpl(UserEventRepository userEventRepository){
         repository = userEventRepository;
-    }
-    @Override
-    protected UserEventNotFound exception() {
-        return new UserEventNotFound();
+        exception = new UserEventNotFound();
     }
 
     @Override
