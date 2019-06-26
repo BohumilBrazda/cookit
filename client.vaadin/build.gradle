@@ -1,0 +1,31 @@
+version '0.0.1'
+
+apply plugin: 'java'
+apply plugin: 'idea'
+
+sourceCompatibility = 1.8
+
+repositories {
+    mavenCentral()
+}
+
+
+
+dependencies {
+
+    compile project(':cz.brazda.cookit.repository')
+
+    //compile group: 'com.vaadin', name: 'vaadin-spring-boot-starter', version: '10.0.2'
+    compile ("com.vaadin:vaadin-spring-boot-starter:10.0.2"){
+        exclude module: 'spring-boot-starter-tomcat'
+    }
+
+    compile ("com.vaadin:vaadin-spring-boot-starter"){
+        exclude module: 'spring-boot-starter-tomcat'
+    }
+
+    compile 'org.reactivestreams:reactive-streams:1.0.1'
+    compile('javax.servlet:javax.servlet-api')
+
+}
+
