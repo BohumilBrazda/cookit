@@ -114,4 +114,9 @@ public class RecipeItem implements IdElement,Serializable {
     public Long getId() {
         return this.id;
     }
+
+    @Override
+    public String toString() {
+        return name;
+    }
 }

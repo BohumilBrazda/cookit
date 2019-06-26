@@ -12,7 +12,6 @@ import org.springframework.context.annotation.Import;
  * Created by Bohumil Brázda on 21.5.2017.
  */
 @SpringBootApplication
-@EnableAutoConfiguration
 @Import({ClientApplConfig.class})
 public class CookitFX extends AbstractJavaFxApplicationSupport {
 

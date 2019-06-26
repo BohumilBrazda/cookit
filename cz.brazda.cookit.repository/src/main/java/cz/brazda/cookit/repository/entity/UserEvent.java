@@ -34,6 +34,11 @@ public class UserEvent extends Event {
         this.eventTime = eventTime;
     }
 
+    public UserEvent(Author author, Date eventTime) {
+        this.author = author;
+        this.eventTime = eventTime;
+    }
+
     @Override
     public Date getEventTime() {
         return eventTime;

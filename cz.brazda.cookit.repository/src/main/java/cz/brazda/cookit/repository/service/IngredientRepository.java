@@ -9,5 +9,6 @@ import org.springframework.stereotype.Repository;
  * Created by virtual on 22.4.2017.
  */
 @Repository
+
 public interface IngredientRepository extends JpaRepository<Ingredient, Long> {
 }

@@ -1,18 +1,19 @@
 package client.repository.service.remote.rest;
 
 import client.repository.model.Entity;
-import client.repository.service.remote.rest.converters.UserEventNodeToDtoConverter;
 import client.repository.service.remote.rest.converters.RecipeNodeToDtoConverter;
+import client.repository.service.remote.rest.converters.UserEventNodeToDtoConverter;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.node.LongNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.sun.istack.internal.NotNull;
 import cz.brazda.cookit.common.dto.EntityDto;
 import cz.brazda.cookit.common.dto.RecipeDto;
 import cz.brazda.cookit.common.dto.UserEventDto;
-import org.modelmapper.*;
+import org.modelmapper.Converter;
+import org.modelmapper.ModelMapper;
+import org.modelmapper.PropertyMap;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -25,7 +26,6 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.UriBuilder;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 /**

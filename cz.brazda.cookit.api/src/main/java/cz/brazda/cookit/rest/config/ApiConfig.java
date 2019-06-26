@@ -1,5 +1,7 @@
 package cz.brazda.cookit.rest.config;
 
+import cz.brazda.cookit.config.PersistenceConfig;
+import cz.brazda.cookit.repository.service.config.ServiceConfig;
 import cz.brazda.cookit.rest.api.controllers.converter.*;
 import org.modelmapper.Converter;
 import org.modelmapper.ModelMapper;
@@ -9,6 +11,7 @@ import org.modelmapper.jackson.JsonNodeValueReader;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Import;
 import org.springframework.web.servlet.mvc.AbstractController;
 
 import java.util.ArrayList;
@@ -20,6 +23,7 @@ import static java.util.Arrays.asList;
  * Created by virtual on 2.5.2017.
  */
 @Configuration
+@Import({PersistenceConfig.class})
 @ComponentScan(basePackages = "cz.brazda.cookit.rest.api", basePackageClasses = AbstractController.class)
 public class ApiConfig {
     @Bean

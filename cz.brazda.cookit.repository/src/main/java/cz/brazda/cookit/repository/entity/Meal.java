@@ -37,6 +37,13 @@ public class Meal implements IdElement, Serializable {
         this.description = description;
     }
 
+    @Override
+    public String toString() {
+        return "Meal{" +
+                "name='" + name + '\'' +
+                '}';
+    }
+
     //hibernate
     public Meal() {
     }

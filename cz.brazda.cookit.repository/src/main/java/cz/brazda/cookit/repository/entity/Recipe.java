@@ -3,6 +3,7 @@ package cz.brazda.cookit.repository.entity;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import cz.brazda.cookit.common.IdElement;
+import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -17,8 +18,8 @@ import java.util.List;
 public class Recipe implements IdElement, Serializable {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id")
+    @GeneratedValue(strategy = GenerationType.AUTO, generator = "native")
+    @GenericGenerator(name = "native", strategy = "native")
     private Long id;
 
     @Column(name = "name")

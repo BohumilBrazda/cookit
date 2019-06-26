@@ -1,27 +1,48 @@
+plugins {
+    id "io.spring.dependency-management" version "1.0.6.RELEASE"
+}
+
 version '0.0.1'
 
 apply plugin: 'war'
 apply plugin: 'java'
 apply plugin: 'idea'
-
-sourceCompatibility = 1.8
+apply plugin: 'io.spring.dependency-management'
 
 repositories {
     mavenCentral()
 }
 
+sourceCompatibility = 1.8
+
 dependencies {
+    compile project(':client.vaadin')
     compile project(':cz.brazda.cookit.repository')
     compile project(':cz.brazda.cookit.api')
     compile project(':cz.brazda.cookit.common')
-    compile group: 'javax', name: 'javaee-api', version: '7.0'
-    compile("org.springframework.boot:spring-boot-starter-web:1.5.3.RELEASE")
-            {
-                exclude group: 'org.springframework.boot', module: 'spring-boot-starter-tomcat'
-            }
-    compile group: 'javax.servlet', name: 'javax.servlet-api', version: '4.0.0-b05'
+
+    //compile group: 'javax', name: 'javaee-api', version: '7.0'
+
+
+
+    compile ("com.vaadin:vaadin-spring-boot-starter"){
+        exclude module: 'spring-boot-starter-tomcat'
+    }
+    compile('javax.servlet:javax.servlet-api')
+//    compile("org.springframework.boot:spring-boot-starter-web")
+////            {
+////                exclude module: 'spring-boot-starter-tomcat'
+////            }
+    //compile group: 'javax.servlet', name: 'javax.servlet-api', version: '4.0.0-b05'
 
 }
 war {
     archiveName = 'cookit.war'
+    enabled = true
 }
+
+
+
+
+
+

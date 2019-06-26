@@ -2,11 +2,14 @@ package cz.brazda.cookit.repository.service.impl;
 
 
 import cz.brazda.cookit.common.IdElement;
+import cz.brazda.cookit.repository.entity.RecipeItem;
 import cz.brazda.cookit.repository.entity.exceptions.RepositoryException;
 import cz.brazda.cookit.repository.service.RepositoryService;
+import javafx.collections.ObservableList;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.Assert;
 
 import java.util.List;
 
@@ -61,7 +64,8 @@ public abstract class RepositoryServiceImpl<T extends IdElement, U extends JpaRe
     @Override
     @Transactional
     public T findById(Long id) {
-        return repository.findOne(id);
+        Assert.notNull(id == null, "Id cannot be null!");
+        return repository.findById(id).get();
     }
 
     @Override

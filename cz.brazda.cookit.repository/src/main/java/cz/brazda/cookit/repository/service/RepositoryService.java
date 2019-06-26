@@ -9,6 +9,7 @@ import java.util.List;
 /**
  * Created by virtual on 23.4.2017.
  */
+
 public interface RepositoryService<T extends IdElement, U extends RepositoryException> {
 
     T create(T entity);

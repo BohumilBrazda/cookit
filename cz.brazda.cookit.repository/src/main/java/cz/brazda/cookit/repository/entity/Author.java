@@ -29,6 +29,11 @@ public class Author implements IdElement {
     public Author() {
     }
 
+    public Author(String firstName, String secondName) {
+        this.firstName = firstName;
+        this.secondName = secondName;
+    }
+
     public Author(Long id, String firstName, String secondName) {
         this.id = id;
         this.firstName = firstName;
