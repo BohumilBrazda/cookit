@@ -104,22 +104,12 @@ public class RecipeDto implements EntityDto {
 
         RecipeDto recipeDto = (RecipeDto) o;
 
-        if (id != null ? !id.equals(recipeDto.id) : recipeDto.id != null) return false;
-        if (name != null ? !name.equals(recipeDto.name) : recipeDto.name != null) return false;
-        if (numberOfPortion != null ? !numberOfPortion.equals(recipeDto.numberOfPortion) : recipeDto.numberOfPortion != null)
-            return false;
-        if (price != null ? !price.equals(recipeDto.price) : recipeDto.price != null) return false;
-        return items != null ? items.equals(recipeDto.items) : recipeDto.items == null;
+        return id.equals(recipeDto.id);
     }
 
     @Override
     public int hashCode() {
-        int result = id != null ? id.hashCode() : 0;
-        result = 31 * result + (name != null ? name.hashCode() : 0);
-        result = 31 * result + (numberOfPortion != null ? numberOfPortion.hashCode() : 0);
-        result = 31 * result + (price != null ? price.hashCode() : 0);
-        result = 31 * result + (items != null ? items.hashCode() : 0);
-        return result;
+        return id.hashCode();
     }
 
     @Override

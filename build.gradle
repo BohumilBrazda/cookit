@@ -1,19 +1,19 @@
-plugins {
-    id "io.spring.dependency-management" version "1.0.6.RELEASE"
-}
+//plugins {
+//    id "io.spring.dependency-management" version "1.0.6.RELEASE"
+//}
 
 version '0.0.1'
 
 apply plugin: 'war'
 apply plugin: 'java'
 apply plugin: 'idea'
-apply plugin: 'io.spring.dependency-management'
+
 
 repositories {
     mavenCentral()
 }
 
-sourceCompatibility = 1.8
+sourceCompatibility = 1.9
 
 dependencies {
     compile project(':client.vaadin')
@@ -21,19 +21,8 @@ dependencies {
     compile project(':cz.brazda.cookit.api')
     compile project(':cz.brazda.cookit.common')
 
-    //compile group: 'javax', name: 'javaee-api', version: '7.0'
-
-
-
-    compile ("com.vaadin:vaadin-spring-boot-starter"){
-        exclude module: 'spring-boot-starter-tomcat'
-    }
     compile('javax.servlet:javax.servlet-api')
-//    compile("org.springframework.boot:spring-boot-starter-web")
-////            {
-////                exclude module: 'spring-boot-starter-tomcat'
-////            }
-    //compile group: 'javax.servlet', name: 'javax.servlet-api', version: '4.0.0-b05'
+    compile group: 'javax.annotation', name: 'javax.annotation-api', version: '1.3.2'
 
 }
 war {

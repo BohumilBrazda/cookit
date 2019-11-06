@@ -1,5 +1,6 @@
 package cz.brazda.cookit.repository.service;
 
+import cz.brazda.cookit.repository.IngredientRepository;
 import cz.brazda.cookit.repository.entity.Ingredient;
 import cz.brazda.cookit.repository.service.impl.IngredientServiceImpl;
 import org.junit.Before;

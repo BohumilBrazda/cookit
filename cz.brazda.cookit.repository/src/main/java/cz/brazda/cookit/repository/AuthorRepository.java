@@ -4,10 +4,12 @@ package cz.brazda.cookit.repository;
 import cz.brazda.cookit.repository.entity.Author;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  * Created by virtual on 22.4.2017.
  */
 @Repository
-public interface AuthorRepository extends JpaRepository<Author, Long> {
+@Transactional
+public interface AuthorRepository extends DtoProjectionRepository<Author, Long> {
 }

@@ -1,0 +1,19 @@
+//add driver module
+module add --name=com.mysql --resources=/var/mysql-connector-java-5.1.46-bin.jar --dependencies=javax.api,javax.transaction.api
+
+//install driver from module
+/subsystem=datasources/jdbc-driver=mysql:add(driver-name=mysql,driver-module-name=com.mysql)
+
+//instal xa datasource
+
+xa-data-source add --name=cookit_ware2 \ --driver-name=mysql  \ --jndi-name=java:/jboss/cookit_ware2 \ --user-name=cookit --xa-datasource-properties=URL=jdbc:mysql://localhost:3306/cookit?useSSL=false
+xa-data-source add --name=cookit_ware2 --jndi-name=java:/jboss/cookit_ware2 --driver-name=mysql --xa-datasource-properties=URL=jdbc:mysql://localhost:3306/cookit?useSSL=false --user-name=cookit --password=hMewd6Iptst5mQbUMziP --enabled=true
+
+
+/subsystem=datasources/xa-data-source=ApplicationXADS/xa-datasource-properties=ServerName:add(value=localhost)
+/subsystem=datasources/xa-data-source=ApplicationXADS/xa-datasource-properties=PortNumber:add(value=3306)
+/subsystem=datasources/xa-data-source=ApplicationXADS/xa-datasource-properties=DatabaseName:add(value=mysql)
+/subsystem=datasources/xa-data-source=ApplicationXADS/xa-datasource-properties=useSSL:add(value=false)
+
+xa-data-source add --name=Test --allow-multiple-users=false --connectable=true --driver-name=XA-Oracle --enabled=true --interleaving=false --jndi-name=java:jboss/datasources/test --max-pool-size=20 --min-pool-size=10 --no-tx-separate-pool=false --pad-xid=false --password=PASSWORD --pool-prefill=true --use-ccm=true --use-java-context=true --user-name=USERNAME --wrap-xa-resource=true --xa-datasource-properties=URL=jdbc:oracle:thin
+

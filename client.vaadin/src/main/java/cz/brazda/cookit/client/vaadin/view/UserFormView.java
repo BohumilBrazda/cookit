@@ -25,7 +25,7 @@ import org.springframework.stereotype.Component;
 
 import java.util.List;
 
-@HtmlImport("styles/shared-styles.html")
+//@HtmlImport("styles/shared-styles.html")
 @Route("cookit/UserForm")
 @Component
 @UIScope
@@ -61,10 +61,10 @@ public class UserFormView extends FormLayout {
         //listBox.setItems(authorService.findAll());
         listBox.setRenderer(new ComponentRenderer<>(item -> {
             Label name = new Label("Name: " + item.getFirstName());
-            Label stock = new Label("Second name: " + item.getSecondName());
+            Label description = new Label("Second name: " + item.getSecondName());
 
 
-            Div labels = new Div(name, stock);
+            Div labels = new Div(name, description);
             Div layout = new Div(labels);
 
             labels.getStyle().set("display", "flex")

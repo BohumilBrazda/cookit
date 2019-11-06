@@ -7,11 +7,14 @@ import cz.brazda.cookit.repository.entity.exceptions.UserEventNotFound;
 import cz.brazda.cookit.repository.service.UserEventService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  * Created by virtual on 23.4.2017.
  */
 @Service
+@Transactional(propagation= Propagation.REQUIRED)
 public class UserEventServiceImpl extends RepositoryServiceImpl<UserEvent, UserEventRepository, UserEventNotFound> implements UserEventService {
 
     @Autowired
@@ -23,6 +26,6 @@ public class UserEventServiceImpl extends RepositoryServiceImpl<UserEvent, UserE
     @Override
     protected void updateEntity(UserEvent updatedElement, UserEvent originEntity) {
         updatedElement.setEventTime(originEntity.getEventTime());
-        updatedElement.setAuthor(originEntity.getAuthor());
+        //updatedElement.setAuthor(originEntity.getAuthor());
     }
 }

@@ -3,7 +3,10 @@ package cz.brazda.cookit.config;
 
 import com.fasterxml.jackson.datatype.hibernate5.Hibernate5Module;
 import cz.brazda.cookit.repository.service.config.ServiceConfig;
-import org.springframework.context.annotation.*;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Import;
+import org.springframework.context.annotation.PropertySource;
 import org.springframework.core.env.Environment;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.http.converter.json.Jackson2ObjectMapperBuilder;
@@ -11,9 +14,12 @@ import org.springframework.jdbc.datasource.lookup.JndiDataSourceLookup;
 import org.springframework.orm.jpa.JpaTransactionManager;
 import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
 import org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter;
+import org.springframework.transaction.TransactionManager;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
+import org.springframework.transaction.annotation.TransactionManagementConfigurer;
 
 import javax.annotation.Resource;
+
 import javax.sql.DataSource;
 import java.util.Properties;
 
@@ -23,14 +29,15 @@ import java.util.Properties;
  */
 @Configuration
 @Import({ServiceConfig.class})
+@PropertySource("classpath:jpa.properties")
 @EnableTransactionManagement
-@PropertySource("classpath:application.properties")
 @EnableJpaRepositories("cz.brazda.cookit.repository")
-public class PersistenceConfig {
+public class PersistenceConfig implements TransactionManagementConfigurer {
 
     private static final String PROPERTY_NAME_HIBERNATE_DIALECT = "hibernate.dialect";
     private static final String PROPERTY_NAME_ENTITYMANAGER_PACKAGES_TO_SCAN = "entitymanager.packages.to.scan";
     private static final String PROPERTY_AUTO  = "hibernate.hbm2ddl.auto";
+
 
 
     @Resource
@@ -47,14 +54,14 @@ public class PersistenceConfig {
         HibernateJpaVendorAdapter vendorAdapter = new HibernateJpaVendorAdapter();
         vendorAdapter.setGenerateDdl(false);
         vendorAdapter.setShowSql(true);
+
         LocalContainerEntityManagerFactoryBean entityManagerFactory = new LocalContainerEntityManagerFactoryBean();
-        entityManagerFactory.setDataSource(dataSource());
+        entityManagerFactory.setJtaDataSource(dataSource());
         entityManagerFactory.setJpaVendorAdapter(vendorAdapter);
         entityManagerFactory.setPersistenceProviderClass(org.hibernate.jpa.HibernatePersistenceProvider.class);
         entityManagerFactory.setPackagesToScan(env.getRequiredProperty(PROPERTY_NAME_ENTITYMANAGER_PACKAGES_TO_SCAN));
 
         entityManagerFactory.setJpaProperties(hibProperties());
-
         return entityManagerFactory;
     }
 
@@ -62,13 +69,15 @@ public class PersistenceConfig {
         Properties properties = new Properties();
         properties.put(PROPERTY_NAME_HIBERNATE_DIALECT, env.getRequiredProperty(PROPERTY_NAME_HIBERNATE_DIALECT));
         properties.put(PROPERTY_AUTO, env.getRequiredProperty(PROPERTY_AUTO));
+
         return properties;
     }
 
     @Bean
     public JpaTransactionManager transactionManager() {
+
         JpaTransactionManager transactionManager = new JpaTransactionManager();
-        transactionManager.setEntityManagerFactory(entityManagerFactory().getObject());
+        transactionManager.setEntityManagerFactory(entityManagerFactory().getNativeEntityManagerFactory());
         return transactionManager;
     }
 
@@ -76,5 +85,10 @@ public class PersistenceConfig {
     public Jackson2ObjectMapperBuilder configureObjectMapper() {
         return new Jackson2ObjectMapperBuilder()
                 .modulesToInstall(Hibernate5Module.class);
+    }
+
+    @Override
+    public TransactionManager annotationDrivenTransactionManager() {
+        return transactionManager();
     }
 }

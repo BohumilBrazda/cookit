@@ -12,23 +12,23 @@ repositories {
 dependencies {
     compile project(':cz.brazda.cookit.common')
 
-    compile group: 'javax.validation', name: 'validation-api', version: '1.1.0.Final'
-    compile group: 'javax.servlet', name: 'javax.servlet-api', version: '3.0.1'
+    compile group: 'javax.validation', name: 'validation-api', version: '2.0.1.Final'
+    compile group: 'javax.servlet', name: 'javax.servlet-api', version: '4.0.1'
 
-    compile group: 'org.hibernate', name: 'hibernate-core', version: '5.2.10.Final'
+    compile group: 'org.hibernate', name: 'hibernate-core', version: '5.4.6.Final'
     runtime group: 'mysql', name: 'mysql-connector-java', version: '5.1.46'
 
-    compile group: 'org.springframework', name: 'spring-context', version: '4.3.8.RELEASE'
-    compile group: 'org.springframework', name: 'spring-orm', version: '4.3.8.RELEASE'
-    compile group: 'org.springframework.data', name: 'spring-data-jpa', version: '2.0.14.RELEASE'
-    compile group: 'org.springframework', name: 'spring-webmvc', version: '4.3.8.RELEASE'
-    compile group: 'org.springframework', name: 'spring-aop', version: '4.3.8.RELEASE'
+    compile group: 'com.github.paulcwarren', name: 'content-jpa-spring-boot-starter', version: '0.11.0'
+    compile group: 'org.springframework', name: 'spring-context', version: '5.1.0.RELEASE'
+    compile group: 'org.springframework', name: 'spring-orm', version: '5.1.0.RELEASE'
+    compile group: 'org.springframework.data', name: 'spring-data-jpa', version: '2.2.0.RELEASE'
+    compile group: 'org.springframework', name: 'spring-webmvc', version: '5.1.0.RELEASE'
+    compile group: 'org.springframework', name: 'spring-aop', version: '5.1.0.RELEASE'
     compile group: 'org.aspectj', name: 'aspectjweaver', version: '1.8.10'
 
     compile group: 'com.fasterxml.jackson.datatype', name: 'jackson-datatype-hibernate5', version: '2.8.8'
-    compile group: 'com.fasterxml.jackson.core', name: 'jackson-core', version: '2.8.8'
+    compile group: 'com.fasterxml.jackson.core', name: 'jackson-core', version: '2.9.7'
 
-    testCompile group: 'junit', name: 'junit', version: '4.12'
-    //testCompile group: 'org.springframework.boot', name: 'spring-boot-starter-test', version: '2.0.3.RELEASE'
+    testCompile group: 'org.springframework.boot', name: 'spring-boot-starter-test', version: '2.0.3.RELEASE'
 
 }

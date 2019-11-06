@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonBackReference;
 import cz.brazda.cookit.common.IdElement;
 import cz.brazda.cookit.common.Unit;
 
+import javax.transaction.Transactional;
 import javax.validation.constraints.NotNull;
 
 import javax.persistence.*;
@@ -14,6 +15,7 @@ import java.io.Serializable;
  */
 @Entity
 @Table(name = "recipe_item")
+@Transactional
 public class RecipeItem implements IdElement,Serializable {
 
     @Id
@@ -21,7 +23,8 @@ public class RecipeItem implements IdElement,Serializable {
     @Column(name = "id")
     private Long id;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "recipe_id")
     @JsonBackReference
     private Recipe recipe;
 
@@ -56,7 +59,14 @@ public class RecipeItem implements IdElement,Serializable {
         this.unit = unit;
     }
 
-
+    public RecipeItem(RecipeItem sourceItem) {
+        this.name = sourceItem.name;
+        this.recipe = sourceItem.recipe;
+        this.description = sourceItem.description;
+        this.amount = sourceItem.amount;
+        this.ingredient = sourceItem.ingredient;
+        this.unit = sourceItem.unit;
+    }
 
     public void setId(Long id) {
         this.id = id;
@@ -118,5 +128,20 @@ public class RecipeItem implements IdElement,Serializable {
     @Override
     public String toString() {
         return name;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        RecipeItem that = (RecipeItem) o;
+
+        return id.equals(that.id);
+    }
+
+    @Override
+    public int hashCode() {
+        return id.hashCode();
     }
 }

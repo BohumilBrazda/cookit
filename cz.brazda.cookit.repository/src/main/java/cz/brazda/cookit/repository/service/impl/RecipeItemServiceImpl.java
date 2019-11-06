@@ -7,12 +7,16 @@ import cz.brazda.cookit.repository.RecipeItemRepository;
 import cz.brazda.cookit.repository.service.RecipeItemService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
 
 
 /**
  * Created by virtual on 23.4.2017.
  */
 @Service
+@Transactional
 public class RecipeItemServiceImpl extends RepositoryServiceImpl<RecipeItem, RecipeItemRepository, RecipeItemNotFound> implements RecipeItemService {
 
     @Autowired
@@ -30,4 +34,5 @@ public class RecipeItemServiceImpl extends RepositoryServiceImpl<RecipeItem, Rec
         updatedElement.setIngredient(originEntity.getIngredient());
         updatedElement.setUnit(originEntity.getUnit());
     }
+
 }

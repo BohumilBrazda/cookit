@@ -20,6 +20,13 @@ public class Ingredient implements IdElement, Serializable {
     @Column(name = "name")
     private String name;
 
+    @Override
+    public String toString() {
+        return "Ingredient{" +
+                "name='" + name + '\'' +
+                '}';
+    }
+
     @Column(name = "description")
     private String description;
 

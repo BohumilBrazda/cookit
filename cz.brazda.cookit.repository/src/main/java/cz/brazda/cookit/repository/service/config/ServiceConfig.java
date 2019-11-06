@@ -1,22 +1,17 @@
 package cz.brazda.cookit.repository.service.config;
 
-import cz.brazda.cookit.repository.AuthorRepository;
-import cz.brazda.cookit.repository.MealRepository;
-import cz.brazda.cookit.repository.RecipeRepository;
-import cz.brazda.cookit.repository.UserEventRepository;
-import cz.brazda.cookit.repository.service.AuthorService;
-import cz.brazda.cookit.repository.service.MealService;
-import cz.brazda.cookit.repository.service.RecipeService;
-import cz.brazda.cookit.repository.service.UserEventService;
-import cz.brazda.cookit.repository.service.impl.AuthorServiceImpl;
-import cz.brazda.cookit.repository.service.impl.MealServiceImpl;
-import cz.brazda.cookit.repository.service.impl.RecipeServiceImpl;
-import cz.brazda.cookit.repository.service.impl.UserEventServiceImpl;
+import cz.brazda.cookit.repository.*;
+import cz.brazda.cookit.repository.service.*;
+import cz.brazda.cookit.repository.service.impl.*;
+import cz.brazda.cookit.repository.ImageStore;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.content.jpa.config.EnableJpaStores;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 
 /**
@@ -24,7 +19,10 @@ import org.springframework.stereotype.Component;
  */
 @Configuration
 @ComponentScan("cz.brazda.cookit.repository")
+@ComponentScan("cz.brazda.cookit.store")
+@EnableTransactionManagement
 @Component
+@EnableJpaStores
 public class ServiceConfig {
 
     @Autowired
@@ -36,6 +34,15 @@ public class ServiceConfig {
     @Autowired
     private UserEventRepository userEventRepository;
 
+    @Autowired
+    private CategoryRepository categoryRepository;
+
+    @Autowired
+    private ImageRepository imageRepository;
+
+    @Autowired
+    private LocalContainerEntityManagerFactoryBean entityManagerFactory;
+
     @Bean
     public AuthorService authorService() {
         return new AuthorServiceImpl(authorRepository);
@@ -43,7 +50,7 @@ public class ServiceConfig {
 
     @Bean
     public RecipeService recipeService() {
-        return new RecipeServiceImpl(recipeRepository);
+        return new RecipeServiceImpl(recipeRepository, entityManagerFactory.getNativeEntityManagerFactory().createEntityManager());
     }
 
     @Bean
@@ -55,4 +62,15 @@ public class ServiceConfig {
     public UserEventService userEventService() {
         return new UserEventServiceImpl(userEventRepository);
     }
+
+    @Bean
+    public CategoryService categoryService() {
+        return new CategoryServiceImpl(categoryRepository);
+    }
+
+    @Bean
+    public ImageService imageService() {
+        return new ImageServiceImpl(imageRepository);
+    }
+
 }

@@ -2,24 +2,30 @@ package cz.brazda.cookit.repository.service.impl;
 
 
 import cz.brazda.cookit.common.IdElement;
-import cz.brazda.cookit.repository.entity.RecipeItem;
+import cz.brazda.cookit.repository.DtoProjectionRepository;
+import cz.brazda.cookit.repository.entity.Recipe;
 import cz.brazda.cookit.repository.entity.exceptions.RepositoryException;
 import cz.brazda.cookit.repository.service.RepositoryService;
-import javafx.collections.ObservableList;
-import org.springframework.data.jpa.repository.JpaRepository;
+import org.hibernate.Session;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 
+import javax.persistence.EntityManager;
 import java.util.List;
 
 /**
  * Created by virtual on 23.4.2017.
  */
 @Service
-public abstract class RepositoryServiceImpl<T extends IdElement, U extends JpaRepository<T, Long>, V extends RepositoryException > implements RepositoryService<T, V> {
+@Transactional
+public abstract class RepositoryServiceImpl<T extends IdElement, U extends DtoProjectionRepository<T, Long>, V extends RepositoryException > implements RepositoryService<T, V> {
 
     protected U repository;
+
+    @Autowired
+    protected EntityManager em;
 
     /**
      * Create new instance of concrete exception
@@ -32,9 +38,11 @@ public abstract class RepositoryServiceImpl<T extends IdElement, U extends JpaRe
      *
      * @param updatedElement entity to update
      */
+    @Transactional
     protected abstract void updateEntity(T updatedElement, T originEntity);
 
     @Override
+    @Transactional
     public T create(T entity) {
         T createdEntity = entity;
         return repository.save(createdEntity);
@@ -57,7 +65,7 @@ public abstract class RepositoryServiceImpl<T extends IdElement, U extends JpaRe
         if(updatedEntity == null){
             throw exception;
         }
-        updateEntity(updatedEntity, entity);
+        updateEntity(entity, updatedEntity);
         return updatedEntity;
     }
 
@@ -65,7 +73,8 @@ public abstract class RepositoryServiceImpl<T extends IdElement, U extends JpaRe
     @Transactional
     public T findById(Long id) {
         Assert.notNull(id == null, "Id cannot be null!");
-        return repository.findById(id).get();
+        Session session = em.unwrap(org.hibernate.Session.class);
+        return (T)session.merge(repository.findById(id).get());
     }
 
     @Override
@@ -73,4 +82,17 @@ public abstract class RepositoryServiceImpl<T extends IdElement, U extends JpaRe
     public List<T> findAll() {
         return repository.findAll();
     }
+
+    @Override
+    public <V> V findById(Long id, Class<V> type) {
+        T entity = repository.findById(id).get();
+
+        T mergedEntity = em.merge(entity);
+        V recipe = repository.findById(id, type);
+        return recipe;
+    }
+
+
+
+
 }

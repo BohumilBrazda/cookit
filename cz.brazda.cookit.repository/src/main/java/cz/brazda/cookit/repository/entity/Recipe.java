@@ -1,12 +1,15 @@
 package cz.brazda.cookit.repository.entity;
 
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import cz.brazda.cookit.common.IdElement;
 import org.hibernate.annotations.GenericGenerator;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -15,6 +18,8 @@ import java.util.List;
 
 @Entity
 @Table(name = "recipe")
+@JsonInclude(JsonInclude.Include.NON_EMPTY)
+@Transactional
 public class Recipe implements IdElement, Serializable {
 
     @Id
@@ -31,9 +36,11 @@ public class Recipe implements IdElement, Serializable {
     @Column(name = "price")
     private Float price;
 
-    @OneToMany(mappedBy="recipe", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "recipe", cascade = CascadeType.ALL, orphanRemoval = true)
+    @Basic(fetch = FetchType.LAZY)
     @JsonManagedReference
-    private List<RecipeItem> items;
+    private List<RecipeItem> items = new ArrayList<>();
+
 
 //    @OneToMany
 //    @JoinTable(
@@ -107,7 +114,10 @@ public class Recipe implements IdElement, Serializable {
 //        this.categories = categories;
 //    }
 
-    public List<RecipeItem> getItems() { return items;   }
+    @Transactional
+    public List<RecipeItem> getItems() {
+        return items;
+    }
 
     public void setItems(List<RecipeItem> items) {
         this.items = items;
@@ -145,4 +155,37 @@ public class Recipe implements IdElement, Serializable {
         this.edited = edited;
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Recipe recipe = (Recipe) o;
+
+        return id.equals(recipe.id);
+    }
+
+    @Override
+    public int hashCode() {
+        return id.hashCode();
+    }
+
+//    @Override
+//    public String toString() {
+//        return "Recipe{" +
+//                "id=" + id +
+//                ", name='" + name + '\'' +
+//                ", numberOfPortion=" + numberOfPortion +
+//                ", price=" + price +
+//                ", items=" + items +
+//                ", created=" + created +
+//                ", edited=" + edited +
+//                ", meal=" + meal +
+//                '}';
+//    }
+
+//    public RecipeDto toDto(){
+//
+//        return new RecipeDto(id, name, numberOfPortion, new UserEventDto(created.getId(), created.getEventTime(), new AuthorDto(created.getAuthor().getId(), created.getAuthor().getFirstName(), created.getAuthor().getSecondName()) created.getAuthor()))
+//    }
 }

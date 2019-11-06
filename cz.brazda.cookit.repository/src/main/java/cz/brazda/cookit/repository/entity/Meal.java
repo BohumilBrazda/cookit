@@ -25,8 +25,8 @@ public class Meal implements IdElement, Serializable {
     @Column(name = "description")
     private String description;
 
-    @Transient
-    private List<Object> pictures;
+    @OneToMany(mappedBy = "source", cascade = CascadeType.ALL)
+    private List<Image> pictures;
 
     @OneToMany(mappedBy = "meal", cascade = CascadeType.ALL)
     private List<Recipe> recipes;
@@ -68,11 +68,11 @@ public class Meal implements IdElement, Serializable {
         this.description = description;
     }
 
-    public List<Object> getPictures() {
+    public List<Image> getPictures() {
         return pictures;
     }
 
-    public void setPictures(List<Object> pictures) {
+    public void setPictures(List<Image> pictures) {
         this.pictures = pictures;
     }
 
